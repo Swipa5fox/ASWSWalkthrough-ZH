@@ -1,6 +1,4 @@
-# A Struggle With Sin WalkThrough（中文版）
-
-《A Struggle With Sin》中文攻略站。
+# A Struggle With Sin 攻略（中文版）
 
 ## 🌐 在线入口
 
