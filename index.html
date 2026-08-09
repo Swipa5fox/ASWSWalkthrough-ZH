@@ -5,129 +5,155 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>A Struggle With Sin WalkThrough</title>
 <style>
+
 :root {
-  --bg: #16181d; --panel: #1e222a; --border: #2c313b;
-  --text: #d8dce4; --dim: #8a93a3; --accent: #7cc7ff; --accent2: #c792ea;
-  --gold: #e8c26a;
+  --bg: #222222; --panel: #1c1f24; --panel-2: #252a31;
+  --line: rgba(100, 200, 255, .30); --line-strong: rgba(100, 200, 255, .72);
+  --text: #f2f4f7; --dim: #a9b2be; --cyan: #64ffff; --blue: #64c8ff;
+  --purple: #c792ea; --gold: #e8c26a;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; min-height: 100%; }
 body {
   font-family: "Hedvig Letters Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
   background: var(--bg); color: var(--text); line-height: 1.7;
 }
-#layout { display: flex; min-height: 100vh; }
+#layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); min-height: 100vh; }
 #sidebar {
-  width: 280px; min-width: 280px; position: sticky; top: 0; height: 100vh;
-  overflow-y: auto; background: var(--panel); border-right: 1px solid var(--border);
-  padding: 18px 12px;
+  height: 100vh; position: sticky; top: 0; overflow-y: auto;
+  border-right: 1px solid var(--line); background: #202327; padding: 10px;
 }
-#sidebar h1 { font-size: 16px; color: var(--gold); padding: 4px 8px 12px; border-bottom: 1px solid var(--border); margin-bottom: 10px; }
-#sidebar ul { list-style: none; }
-#sidebar li a {
-  display: block; padding: 5px 8px; color: var(--dim); text-decoration: none;
-  border-radius: 6px; font-size: 14px;
+#sidebar h1 {
+  color: var(--cyan); font-size: 15px; line-height: 1.35; font-weight: 700;
+  padding: 7px 8px 12px; margin-bottom: 8px; border-bottom: 1px solid var(--line);
 }
-#sidebar li a:hover { background: #2a303b; color: var(--text); }
-#sidebar li a:target { background: var(--accent); color: #111; }
-#content { flex: 1; padding: 28px 36px 80px; max-width: 860px; }
-section { margin-bottom: 56px; }
-section > h2 {
-  color: var(--accent); font-size: 24px; padding-bottom: 10px;
-  border-bottom: 2px solid var(--border); margin-bottom: 18px;
+#sidebar ul { list-style: none; padding: 0; margin: 0; }
+#sidebar li + li { margin-top: 2px; }
+.section-link {
+  width: 100%; border: 0; border-left: 4px solid var(--line); background: transparent;
+  color: var(--dim); cursor: pointer; padding: 4px 7px; text-align: left;
+  font: inherit; font-size: 14px; line-height: 1.35;
+  transition: color .15s, background .15s, border-color .15s;
 }
-h3 { color: var(--accent2); font-size: 19px; margin: 22px 0 10px; }
-h4 { color: var(--gold); font-size: 16px; margin: 16px 0 8px; }
+.section-link:hover { color: var(--blue); background: rgba(100, 200, 255, .08); border-left-color: var(--line-strong); }
+.section-link.active { color: var(--cyan); background: rgba(100, 200, 255, .12); border-left-color: var(--cyan); }
+#workspace { min-width: 0; display: grid; grid-template-rows: 58px minmax(0, 1fr); height: 100vh; }
+#page-title {
+  display: flex; align-items: center; padding: 5px 18px; border-bottom: 1px solid var(--line);
+  background: #202327; color: var(--text); font-size: 28px; font-weight: 700;
+}
+#content { overflow-y: auto; padding: 20px; }
+.walkthrough-card {
+  display: none; width: min(1120px, 100%); margin: 0 auto;
+  border: 1px solid var(--line); background: var(--panel); box-shadow: 0 16px 38px rgba(0, 0, 0, .28);
+}
+.walkthrough-card.active { display: block; }
+.card-title {
+  min-height: 52px; display: flex; align-items: center; padding: 8px 16px;
+  border-bottom: 1px solid var(--line); background: var(--panel-2);
+}
+.card-title h2 { color: var(--cyan); font-size: 24px; line-height: 1.25; }
+.card-body { padding: 18px 20px 28px; font-size: 16px; }
+h3 { color: var(--purple); font-size: 20px; margin: 24px 0 9px; }
+h4 { color: var(--gold); font-size: 17px; margin: 18px 0 8px; }
 p { margin: 8px 0; }
-ol, ul { margin: 6px 0 6px 0; padding-left: 24px; }
+ol, ul { margin: 7px 0 14px; padding-left: 27px; }
 li { margin: 4px 0; }
 ol ol, ul ul, ol ul, ul ol { margin: 4px 0; }
 strong { color: #fff; }
-a { color: var(--accent); text-decoration: none; }
-a:hover { text-decoration: underline; }
-img { max-width: 100%; border-radius: 8px; margin: 10px 0; border: 1px solid var(--border); }
+a { color: var(--blue); text-decoration: none; }
+a:hover { color: var(--cyan); text-decoration: underline; }
+img { display: block; max-width: 100%; border: 1px solid var(--line); margin: 12px 0; }
 blockquote {
-  border-left: 3px solid var(--accent2); background: #232833;
-  padding: 8px 14px; border-radius: 0 8px 8px 0; margin: 10px 0; color: var(--dim);
+  border-left: 4px solid var(--purple); background: #262b34; color: #c1c8d1;
+  padding: 9px 14px; margin: 12px 0;
 }
-code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13px; }
-#footer { color: var(--dim); font-size: 13px; margin-top: 40px; padding-top: 14px; border-top: 1px solid var(--border); }
+code { background: #303640; padding: 1px 6px; font-size: 13px; }
+#footer {
+  width: min(1120px, 100%); color: var(--dim); font-size: 13px;
+  margin: 24px auto 0; padding: 14px 4px 24px; border-top: 1px solid var(--line);
+}
 @media (max-width: 760px) {
-  #layout { flex-direction: column; }
-  #sidebar { width: 100%; height: auto; position: static; }
-  #content { padding: 20px 16px 60px; }
+  #layout { display: block; }
+  #sidebar { width: 100%; height: auto; max-height: 42vh; position: static; border-right: 0; border-bottom: 1px solid var(--line); }
+  #workspace { height: auto; min-height: 58vh; display: block; }
+  #page-title { position: sticky; top: 0; z-index: 5; min-height: 50px; font-size: 21px; }
+  #content { overflow: visible; padding: 12px; }
+  .card-body { padding: 14px; font-size: 15px; }
 }
+
 </style>
 </head>
 <body>
 <div id="layout">
-  <nav id="sidebar">
+  <nav id="sidebar" aria-label="章节导航">
     <h1>A Struggle With Sin<br>WalkThrough</h1>
-    <ul><li><a href="#wt-info">基本信息</a></li>
-<li><a href="#wt-tips">技巧与提示</a></li>
-<li><a href="#wt-house">房屋翻新</a></li>
-<li><a href="#wt-intro">序章</a></li>
-<li><a href="#wt-mc">主角</a></li>
-<li><a href="#wt-mira">Mira 米拉</a></li>
-<li><a href="#wt-church">教堂</a></li>
-<li><a href="#wt-monastery">修道院</a></li>
-<li><a href="#wt-tia">Tia 缇娅</a></li>
-<li><a href="#wt-katherin">Katherin 凯瑟琳</a></li>
-<li><a href="#wt-kate">Kate 凯特</a></li>
-<li><a href="#wt-claire">Claire 克莱尔</a></li>
-<li><a href="#wt-carmen">Carmen 卡门</a></li>
-<li><a href="#wt-lucius">Lucius 卢修斯</a></li>
-<li><a href="#wt-frisha">Frisha 弗丽莎</a></li>
-<li><a href="#wt-arianna">Arianna 阿里安娜</a></li>
-<li><a href="#wt-verena">Verena 维蕾娜</a></li>
-<li><a href="#wt-rose">Rose 萝丝</a></li>
-<li><a href="#wt-emily">Emily 艾米丽</a></li>
-<li><a href="#wt-corven">Corven 科尔文</a></li>
-<li><a href="#wt-john">John 约翰</a></li>
-<li><a href="#wt-melissa">Melissa 梅丽莎</a></li>
-<li><a href="#wt-imawyn">Imawyn 伊玛温</a></li>
-<li><a href="#wt-lyvia">Lyvia 莉薇亚</a></li>
-<li><a href="#wt-maui">Maui 马乌伊</a></li>
-<li><a href="#wt-bianca">Bianca 比安卡</a></li>
-<li><a href="#wt-gavina">Gavina 加维娜</a></li>
-<li><a href="#wt-ugotha">Ugotha 乌戈萨</a></li>
-<li><a href="#wt-snikka">Snikka 斯妮卡</a></li>
-<li><a href="#wt-natasha">Natasha 娜塔莎</a></li>
-<li><a href="#wt-ophilia">Ophilia 奥菲莉亚</a></li>
-<li><a href="#wt-anya">Anya 安雅</a></li>
-<li><a href="#wt-penny">Penny 佩妮</a></li>
-<li><a href="#wt-lilly">Lilly 莉莉</a></li>
-<li><a href="#wt-elisabeth">Elisabeth 伊丽莎白</a></li>
-<li><a href="#wt-gwen">Gwen 格温</a></li>
-<li><a href="#wt-sabrina">Sabrina 萨布丽娜</a></li>
-<li><a href="#wt-athia">Athia 阿西娅</a></li>
-<li><a href="#wt-bridget">Bridget 布丽奇特</a></li>
-<li><a href="#wt-agatha">Agatha 阿加莎</a></li>
-<li><a href="#wt-heather">Heather 希瑟</a></li>
-<li><a href="#wt-rumah">鲁玛村</a></li>
-<li><a href="#wt-raaisha">Raaisha 拉伊莎</a></li>
-<li><a href="#wt-hiba">Hiba 希芭</a></li>
-<li><a href="#wt-nyra">Nyra 妮拉</a></li>
-<li><a href="#wt-ayita">Ayita 阿伊塔</a></li>
-<li><a href="#wt-umah">Umah 乌玛</a></li>
-<li><a href="#wt-darkholt">重建达克霍特</a></li>
-<li><a href="#wt-mansion">市长宅邸</a></li>
-<li><a href="#wt-julia">Julia 茱莉亚</a></li>
-<li><a href="#wt-liandra">Liandra 莉安德拉</a></li>
-<li><a href="#wt-helena">Helena 海伦娜</a></li>
-<li><a href="#wt-yasmine">Yasmine 雅斯敏</a></li></ul>
+    <ul><li><button class="section-link" type="button" data-target="wt-info">基本信息</button></li>
+<li><button class="section-link" type="button" data-target="wt-tips">技巧与提示</button></li>
+<li><button class="section-link" type="button" data-target="wt-house">房屋翻新</button></li>
+<li><button class="section-link" type="button" data-target="wt-intro">序章</button></li>
+<li><button class="section-link" type="button" data-target="wt-mc">主角</button></li>
+<li><button class="section-link" type="button" data-target="wt-church">教堂</button></li>
+<li><button class="section-link" type="button" data-target="wt-monastery">修道院</button></li>
+<li><button class="section-link" type="button" data-target="wt-mira">Mira 米拉</button></li>
+<li><button class="section-link" type="button" data-target="wt-tia">Tia 缇娅</button></li>
+<li><button class="section-link" type="button" data-target="wt-katherin">Katherin 凯瑟琳</button></li>
+<li><button class="section-link" type="button" data-target="wt-kate">Kate 凯特</button></li>
+<li><button class="section-link" type="button" data-target="wt-claire">Claire 克莱尔</button></li>
+<li><button class="section-link" type="button" data-target="wt-carmen">Carmen 卡门</button></li>
+<li><button class="section-link" type="button" data-target="wt-lucius">Lucius 卢修斯</button></li>
+<li><button class="section-link" type="button" data-target="wt-frisha">Frisha 弗丽莎</button></li>
+<li><button class="section-link" type="button" data-target="wt-arianna">Arianna 阿里安娜</button></li>
+<li><button class="section-link" type="button" data-target="wt-verena">Verena 维蕾娜</button></li>
+<li><button class="section-link" type="button" data-target="wt-rose">Rose 萝丝</button></li>
+<li><button class="section-link" type="button" data-target="wt-emily">Emily 艾米丽</button></li>
+<li><button class="section-link" type="button" data-target="wt-corven">Corven 科尔文</button></li>
+<li><button class="section-link" type="button" data-target="wt-john">John 约翰</button></li>
+<li><button class="section-link" type="button" data-target="wt-melissa">Melissa 梅丽莎</button></li>
+<li><button class="section-link" type="button" data-target="wt-imawyn">Imawyn 伊玛温</button></li>
+<li><button class="section-link" type="button" data-target="wt-lyvia">Lyvia 莉薇亚</button></li>
+<li><button class="section-link" type="button" data-target="wt-maui">Maui 马乌伊</button></li>
+<li><button class="section-link" type="button" data-target="wt-bianca">Bianca 比安卡</button></li>
+<li><button class="section-link" type="button" data-target="wt-gavina">Gavina 加维娜</button></li>
+<li><button class="section-link" type="button" data-target="wt-ugotha">Ugotha 乌戈萨</button></li>
+<li><button class="section-link" type="button" data-target="wt-snikka">Snikka 斯妮卡</button></li>
+<li><button class="section-link" type="button" data-target="wt-natasha">Natasha 娜塔莎</button></li>
+<li><button class="section-link" type="button" data-target="wt-ophilia">Ophilia 奥菲莉亚</button></li>
+<li><button class="section-link" type="button" data-target="wt-anya">Anya 安雅</button></li>
+<li><button class="section-link" type="button" data-target="wt-penny">Penny 佩妮</button></li>
+<li><button class="section-link" type="button" data-target="wt-lilly">Lilly 莉莉</button></li>
+<li><button class="section-link" type="button" data-target="wt-elisabeth">Elisabeth 伊丽莎白</button></li>
+<li><button class="section-link" type="button" data-target="wt-gwen">Gwen 格温</button></li>
+<li><button class="section-link" type="button" data-target="wt-sabrina">Sabrina 萨布丽娜</button></li>
+<li><button class="section-link" type="button" data-target="wt-athia">Athia 阿西娅</button></li>
+<li><button class="section-link" type="button" data-target="wt-bridget">Bridget 布丽奇特</button></li>
+<li><button class="section-link" type="button" data-target="wt-agatha">Agatha 阿加莎</button></li>
+<li><button class="section-link" type="button" data-target="wt-heather">Heather 希瑟</button></li>
+<li><button class="section-link" type="button" data-target="wt-rumah">鲁玛村</button></li>
+<li><button class="section-link" type="button" data-target="wt-raaisha">Raaisha 拉伊莎</button></li>
+<li><button class="section-link" type="button" data-target="wt-hiba">Hiba 希芭</button></li>
+<li><button class="section-link" type="button" data-target="wt-nyra">Nyra 妮拉</button></li>
+<li><button class="section-link" type="button" data-target="wt-ayita">Ayita 阿伊塔</button></li>
+<li><button class="section-link" type="button" data-target="wt-umah">Umah 乌玛</button></li>
+<li><button class="section-link" type="button" data-target="wt-darkholt">重建达克霍特</button></li>
+<li><button class="section-link" type="button" data-target="wt-mansion">市长宅邸</button></li>
+<li><button class="section-link" type="button" data-target="wt-julia">Julia 茱莉亚</button></li>
+<li><button class="section-link" type="button" data-target="wt-liandra">Liandra 莉安德拉</button></li>
+<li><button class="section-link" type="button" data-target="wt-helena">Helena 海伦娜</button></li>
+<li><button class="section-link" type="button" data-target="wt-yasmine">Yasmine 雅斯敏</button></li></ul>
   </nav>
-  <main id="content">
-    <section id="wt-info">
-<h2>基本信息</h2>
-<p>这是游戏《A Struggle With Sin》的攻略，作者 Chyos（ <a href="https://subscribestar.adult/chyos">https://subscribestar.adult/chyos</a> 、 <a href="https://www.patreon.com/Chyos">https://www.patreon.com/Chyos</a> ）。</p>
+  <div id="workspace">
+    <div id="page-title" aria-live="polite">基本信息</div>
+    <main id="content">
+      <section id="wt-info" class="walkthrough-card" data-title="基本信息">
+<header class="card-title"><h2>基本信息</h2></header>
+<div class="card-body"><p>这是游戏《A Struggle With Sin》的攻略，作者 Chyos（ <a href="https://subscribestar.adult/chyos">https://subscribestar.adult/chyos</a> 、 <a href="https://www.patreon.com/Chyos">https://www.patreon.com/Chyos</a> ）。</p>
 
 <p>文中将用 A 和 C 分别作为好感度（Affection）和堕落值（Corruption）的简写。</p>
 
 <p>最新版本的新增内容将用绿色高亮标出。</p>
 
-<p>当前支持的版本： .</p>
-
-<p>可以使用右侧菜单切换不同版本。</p>
+<p>当前支持的版本：0.62.0</p>
 
 <p>本文档使用 Cookie 的唯一目的是记住你设置了哪些章节为"隐藏"。在你使用隐藏功能之前，不会在你的电脑上创建任何 Cookie。更多信息 <a href="#hidden-sections">隐藏章节</a> 。</p>
 
@@ -182,22 +208,22 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <p>你应该先做的任务，以解锁所有选项：</p>
 
 <ul>
-<li><a href="#wt-mira">Mira</a> 直到阅读 2</li>
+<li><a href="#wt-mira">Mira</a> 直到"阅读 2"任务</li>
 
 <li><a href="#wt-lucius">Lucius</a> 的"控制你的欲望"任务（需要先学会阅读）</li>
 
-<li><a href="#wt-bianca">Bianca</a> 教你撬锁</li>
+<li><a href="#wt-bianca">Bianca</a> 教你"撬锁"</li>
 
-<li><a href="#wt-john">John</a> 教你锻造</li>
+<li><a href="#wt-john">John</a> 教你"锻造"</li>
 
 </ul>
 <p><strong>要支持游戏开发并获取更新消息，请访问 Chyos 的 <a href="https://subscribestar.adult/chyos">https://subscribestar.adult/chyos</a> 或 <a href="https://www.patreon.com/Chyos">https://www.patreon.com/Chyos</a> 。</strong></p>
 
-<p>*攻略作者 Chyos；排版美化 <a href="https://f95zone.to/members/aloof_tooth.4676849/">https://f95zone.to/members/aloof_tooth.4676849/</a> 。*</p>
+<p>*攻略作者 Chyos；排版美化 <a href="https://f95zone.to/members/aloof_tooth.4676849/">https://f95zone.to/members/aloof_tooth.4676849/</a> 。*</p></div>
 </section>
-<section id="wt-tips">
-<h2>技巧与提示</h2>
-<h4>天赋判定</h4>
+<section id="wt-tips" class="walkthrough-card" data-title="技巧与提示">
+<header class="card-title"><h2>技巧与提示</h2></header>
+<div class="card-body"><h4>天赋判定</h4>
 
 <p>天赋判定的详细说明见游戏内的教程。</p>
 
@@ -255,11 +281,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>完成 <a href="#wt-corven">Corven</a> 的任务后，你可以出售从兔子、狼、鹿身上获得的皮毛。</li>
 
 <li>一旦你完成 <a href="#wt-tia">Tia</a> 的任务线并接管 <a href="#wt-rumah">Rumah 村</a>，他们会为你收集资源，你可以出售这些资源。</li>
-</ul>
+</ul></div>
 </section>
-<section id="wt-house">
-<h2>房屋翻新</h2>
-<ol>
+<section id="wt-house" class="walkthrough-card" data-title="房屋翻新">
+<header class="card-title"><h2>房屋翻新</h2></header>
+<div class="card-body"><ol>
 <li>等你翻修完 <a href="#wt-emily">Emily</a> 的房子后，去拜访你自己的房子。此时主角（MC）会开始考虑翻修自己的房子。</li>
 
 <li>你需要为此准备一些材料（参见任务描述），集齐材料并休息之后，你可以在早上开始动工修你的房子。</li>
@@ -279,11 +305,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>如果你和你门外的猫互动过，并在它身上累积了好感度，这将会解锁为它建造一个猫门（cat-door）的选项。找 Roderic 谈谈这件事。</li>
 
 <li>等 Roderic 为你造好一张新床之后，你可以邀请一些女性来你的房子，包括你的同伴——如果你已经和她们建立了关系。等你先分别单独邀请过她们之后，你还可以一起邀请她们，但前提是她们彼此都知道对方和主角（MC）的关系。你可以在主角营地（MC 的营地）的聚会上与她们互动来达成这一点（参见各自进度中的章节）。如果她们都知道了彼此的存在，就会出现一起邀请她们的新选项。这也会在之后让你可以在旅馆把你的同伴带到你的房间——只要你有她们陪同。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-intro">
-<h2>序章</h2>
-<ol>
+<section id="wt-intro" class="walkthrough-card" data-title="序章">
+<header class="card-title"><h2>序章</h2></header>
+<div class="card-body"><ol>
 <li>从墙上取下你的弓。</li>
 
 <li>走过河，观看卫队长和一名士兵训练。你学会了防御打击（Defensive Strike）。</li>
@@ -298,7 +324,7 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <ul>
 <li>如果你自己留着它：+1 堕落值。</li>
 
-<li>否则：+1 好感度（来自 Kate）。</li>
+<li>否则：+1 A（来自 Kate）。</li>
 
 </ul>
 <ol>
@@ -314,20 +340,32 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 
 <li>在旅馆里和 Rick 谈话，之后和旅店老板 Thomas 谈话。</li>
 
-<li><img src="images/intro2.jpg" alt="img" loading="lazy"> 从村庄北边进入森林，找到那条隐秘的小路。</li>
+<li><img src="images/intro2.jpg" alt="img" loading="lazy"></li>
 
+</ol>
+<ul>
+<li>从村庄北边进入森林，找到那条隐秘的小路。</li>
+
+</ul>
+<ol>
 <li>向左走，走通往山谷的路。</li>
 
-<li><img src="images/intro3.jpg" alt="img" loading="lazy"> 在小屋里捡起银子，并使用引火石（Fire stones）点亮蜡烛。</li>
+<li><img src="images/intro3.jpg" alt="img" loading="lazy"></li>
 
+</ol>
+<ul>
+<li>在小屋里捡起银子，并使用引火石（Fire stones）点亮蜡烛。</li>
+
+</ul>
+<ol>
 <li>从书架上拿 4 本书（直到主角（MC）告诉你他拿够了为止），然后离开小屋。</li>
 
 <li>与女巫的遭遇中，随便选什么都行。如果你选择上了她，这会计入她的堕落值（参见 Gwen）。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-mc">
-<h2>主角</h2>
-<ol>
+<section id="wt-mc" class="walkthrough-card" data-title="主角">
+<header class="card-title"><h2>主角</h2></header>
+<div class="card-body"><ol>
 <li>要开始这个任务，首先跟着 <a href="#wt-mira">Mira</a> 一直做到第 17 步，这会开启一个新任务。</li>
 
 <li>要去 Kirlic，你首先需要一匹马和一个能安置它的地方；如果你已经完成了 <a href="#wt-kate">Kate</a> 的任务，这一步可以跳过（继续第 5 步）。否则，找 Penny 谈话，问她你能不能使用她的谷仓。</li>
@@ -373,11 +411,168 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>你现在还可以在你的营地建一个马厩（前提是你在 Lyvia 的故事线里推进到了一定进度）。要做到这一点，白天去城墙附近找马贩子谈话，这会让主角（MC）想要建一个马厩；马厩建好后，你可以再次与马贩子谈话，为你的同伴购买马匹。在你回到 Arenfield 之后（只要她们在你的队伍里），她们就会骑马加入你。</li>
 
 </ol>
-<p>目前这就是故事的结尾，未来还会加入更多内容。</p>
+<p>目前这就是故事的结尾，未来还会加入更多内容。</p></div>
 </section>
-<section id="wt-mira">
-<h2>Mira 米拉</h2>
-<p>你的青梅竹马。和她的母亲 <a href="#wt-emily">Emily</a> 以及姐姐 <a href="#wt-frisha">Frisha</a> 住在一起。</p>
+<section id="wt-church" class="walkthrough-card" data-title="教堂">
+<header class="card-title"><h2>教堂</h2></header>
+<div class="card-body"><p>完成 <a href="#wt-mira">Mira</a> 的故事，直到她加入教堂的部分。</p>
+
+<p>警告：这个任务建议 25 级以上，但当然任何等级都能做！</p>
+
+<ol>
+<li>Mira 成为见习修女 14 天后，神父要她接受一项仪式，以成为女祭司。</li>
+
+<li>白天（早上 7 点至下午 4 点之间）拜访教堂。</li>
+
+<li>可选：如果你已经完成了 Mira 的恋爱任务，你可以在下午去拜访她，开始用神圣符号训练她。</li>
+
+<li>3 天后 Aidalin 会抵达 Arenfield。在早上 7 点至下午 4 点之间拜访教堂。</li>
+
+<li>再等两天，直到你收到通知。然后和神父谈 Mira 的事。</li>
+
+<li>要继续推进，你需要主角（MC）家里的火把。你可以在夜里撬锁开门进入，也可以从 Giron 那里租到。</li>
+
+<li>你还需要 Bianca 教你的撬锁技能，才能打开地窖的门。</li>
+
+<ol>
+<li>在圣所（sanctum）内部，向西南走，直到你找到一扇关着的门。现在你必须为每一位神献上祭品。</li>
+</ol>
+<ul>
+<li>Uldar——邪恶生物的残骸（来自 Syfa 的瘟疫魔（Plaguefiend）或恶魔猴（Demonkey）的任意物品）。</li>
+
+<li>Gromthul——任意动物的血肉。</li>
+
+<li>Athia——一张羊皮纸，在 Lucius 的商店购买。</li>
+
+<li>矮人雕像——铜矿石。</li>
+
+<li>Alaira——任意药草或植物（可以从 Katherin 那里购买）。</li>
+
+<li>Isha——一瓶精液或精酿酒（cumwine）（参见 Lucius 的任务）。</li>
+
+</ul>
+<li>离开那扇门之后 Syfa 会出现。你在圣所里时她会追猎你。如果你想把她出现的接触降到最低，就在击败她之后不要与她互动。这会让你再多 60 秒（总共 120 秒），之后她才会再次出现。</li>
+
+<li>等你点亮了所有神像旁的圣像火把后，与门互动。在圣所里走到 Mira 面前。现在，如果你开启了 NTR 内容，你会得到一个选择。你可以选择相信 Mira，或者不相信。后者会带来一场性爱场景，但也会让 Mira 更进一步地把你们的关系只看作纯粹的肉体关系。</li>
+
+<li>回到教堂后，如果你没有相信 Mira，她现在会问你为什么这么做。如果你告诉她那是个错误、你爱她，她就没事了。如果你告诉她你不确定这段关系，这会为她开启与 Aidalin 约会的路线。</li>
+
+<li>回到家后你无法改变结局，但结局取决于你之前的选择。主要看你是否完成了 Emily 的故事，并决定告诉 Emily 你想和她发展关系。如果你这样做了，她会把这事告诉 Mira。如果你告诉 Emily 这一切只是玩玩而已，她就会保持沉默。如果你告诉 Mira 你不确定这段关系，她会离开桌子，并且绝口不提这件事。</li>
+
+<ol>
+<li>当 Mira 坐在床上时和她谈话。现在有 5 种不同的情况：</li>
+<li>你之前完成了 Mira 的恋爱任务，没在她面前上过 Syfa，也没告诉 Emily 你想发展关系——一切顺利，你可以和她好好玩玩。</li>
+
+<li>没完成 Mira 的恋爱任务，没在她面前上过 Syfa，也没告诉 Emily 你想发展关系——一切顺利，你现在可以带着略有改动的对话做这个恋爱任务。</li>
+
+<li>和 Mira 分手了——她会心碎。告诉她你不是那个意思，一切就会恢复正常……或者等上几天，她就会开始和 Aidalin 约会。如果你在他们接吻之后告诉她想让她回来，她会告诉你她不再确定是否还想让你回来，并会继续和 Aidalin 保持关系。</li>
+
+<li>告诉 Emily 你想发展关系，并且当着 Mira 的面上了 Syfa——她会告诉你她对你的信任已经动摇，她勉强能接受，但也会开始寻找其他男人（开启与 Aidalin 的关系）。</li>
+
+<li>告诉 Emily 你想发展关系，没当着 Mira 的面和 Syfa 干——Mira 会接受你同时和她以及她母亲保持关系。</li>
+
+</ol>
+<li>选项 4 和 5 会在未来带来可能的 3P 场景。我以后会为 Emily 加入其他"出柜"选项，但目前只有这一种方式能让 Mira 知道 Emily 的事，并且如果她还没完成恋爱任务，也会在恋爱任务中提及此事。</li>
+
+<li>神父现在会写一封信，但这个任务的后续步骤尚未实装。关于肛交和 Aidalin 路线的更多信息，参见 Mira。</li>
+</ol></div>
+</section>
+<section id="wt-monastery" class="walkthrough-card" data-title="修道院">
+<header class="card-title"><h2>修道院</h2></header>
+<div class="card-body"><p>完成 <a href="#wt-church">教堂</a> 后解锁修道院。</p>
+
+<p>你可以在修道院找到 <a href="#wt-mira">Mira</a> 、 <a href="#wt-bridget">Bridget</a> 、 <a href="#wt-heather">Heather</a> 、 <a href="#wt-agatha">Agatha</a> 和 Syfa。</p>
+
+<ol>
+<li>完成圣所里的事件并完成 Mira 的恋爱任务后（你也可以选择完全不和她发展关系），一辆马车会到达教堂，白天去拜访它。</li>
+
+<li>到达修道院后，你会面临一个决定：是否要摧毁主角（MC）房间里的封印。这样做会让你面临一个选择：是否站在 Syfa 一边。如果你决定这么做，你现在将站在教会的对立面（黑暗路线），你也将能够在沿途腐化女祭司们。</li>
+
+<li>第二天去教堂里见修道院院长，谈谈那起谋杀；如果你没走 Syfa 路线，也和他谈谈恶魔的事。并向他询问谋杀案。</li>
+
+<li>从现在起你可以和很多人谈话；看看任务日志，先找 Adson 谈，让他给你看受害者。</li>
+
+<li>检查尸体时，看看他的双手、胸口的伤和肩膀上的伤。</li>
+
+<li>找 Matthias（白天大部分时间都在田里）、Gabriel（在厨房里或田里）和 Antonius（在缮写室（scriptorium）里或门前）谈话。白天还要试着趁 Jorge 在给女人们上课时（缮写室）找他谈话，这会触发她们换上新衣服的场景。</li>
+
+<li>Antonius 会想到一个打开 Bernard 手的办法。为此你需要银根草（Silverroot，在修道院的墓地里找）、一片猪耳叶（lobe，在厨房里）——然后出去从井里打水。之后打开制作菜单，制作抗惊厥膏药（Anticonvulsant Poultice）。</li>
+
+<li>在与 William（修道院院长）的对话中，询问 Bernard 的纹身，他会给你 Bernard 房间的钥匙（Agatha 正睡在里面）。白天去 Agatha 的房间，这会导致一段躲藏场景。躲在床下，目睹 Agatha 和 Bridget 之间的对话。</li>
+
+<li>检查 Agatha 房间里祭坛上的那本书。</li>
+
+<li>用从 Agatha 房间拿到的钥匙，进入 Jorge 的房间（最左边的修士宿舍），检查里面的书，那就是你在找的账本。</li>
+
+<li>进入停放 Bernard 尸体的房间，检查他紧握的手，这会触发你之前准备好的抗惊厥膏药。</li>
+
+<li>现在等一天，再回到 Bernard 的尸体旁。你现在可以打开他的手了。</li>
+
+<li>你在他手里发现了数字 12，现在打开账本，查找那一页。</li>
+
+<li>回到 Agatha 的房间，四处走动，直到主角（MC）在某块石头下面发现东西——一封 Bernard 的来信。</li>
+
+<li>拿着信找 Gabriel 谈，他会让你查看你自己房间里 Matthias 的一个秘密藏匿点。</li>
+
+<li>检查你房间里床底下的东西，找到一封信和一笔钱，你可以把它们藏起来。你现在可以指控 Matthias，这是这个任务的 1 种结局。</li>
+
+<li>再和 Antonius 谈谋杀案，你现在可以去找 Aidalin，他在自己的房间里（之前是 Antonius 的房间）发现了凶器——下一步本应是指控 Antonius，但如果你没走 Syfa 路线，现在还不能指控他。以后再细说；如果你指控他，你之后还可以决定他是否真的有罪。</li>
+
+<ol>
+<li>你必须指控某个人，或者告诉 William 凶手已经逃跑了（只有推进过 Heather 的故事才可能），才能继续主线。</li>
+</ol>
+</ol>
+<p><strong>教会路线：</strong></p>
+<ol>
+<li>如果你没有站在 Syfa 一边，与 William 关于恶魔的对话会开启一个新任务：削弱 Syfa。和 Antonius 谈这件事，他会请你在缮写室里找一本书。你可以在缮写室最底下一层找到那本书。</li>
+
+<li>再和 Antonius 谈话，你现在必须返回 Arenfield，和神父（pater）谈话。</li>
+
+<li>下一步你必须推进 Gwen 的故事，直到你能进入她的第 2 个房间。你会在里面找到那个坏掉的项圈（broken collar）。</li>
+
+<li>前往废墟地图（Arianna 玩的地方），进入那座旧教堂，你会在里面找到黑曜石镜子（obsidian mirror）。</li>
+
+<li>带着项圈去找 John（Arenfield 的铁匠铺）——如果你会锻造，就可以自己修好项圈。用铁砧来修。你需要一颗影之宝石（shadow-jewel）。如果你没有（通常你可以通过圣所里的宝箱获得；如果你之前和 Syfa 的战斗中没有拿到钥匙，只要好感度够高，你的猫也能给你这些钥匙），就进入教堂下方的圣所，你会在靠近仪式室入口的地面上找到一颗。然后重新锻造项圈。</li>
+
+<li>回到 Antonius 那里，这就算完成准备工作了。</li>
+
+<ol>
+<li>根据你指控谁，最后会有人死去。</li>
+</ol>
+<ul>
+<li>如果你指控 Antonius，那么 Matthias 会死。</li>
+
+<li>如果你指控 Matthias，那么 William 会死。</li>
+
+<li>你也可以指控 Adson（这需要你找到 Agatha 的日记），那样的话 Matthias 也会死。</li>
+
+</ul>
+</ol>
+<p>（我原本计划设计一条 Adson 死去的路线，但因为那会对 Bridget 的故事产生影响，我决定放弃）。</p>
+
+<p>没有任何一条路线能让所有人都活下来。这种事未来可能会改。也许最好的选择是指控 Antonius，但决定权在你。</p>
+
+<p><strong>Syfa 路线：</strong></p>
+
+<ol>
+<li>如果你站在 Syfa 一边，等姐妹们拿到她们的新裙子后召唤她。她会给你假的塞子（plugs），你需要用它们换掉女祭司们正在使用的真塞子。</li>
+
+<li>这样做是可选的（如果你想腐化她们的话），但你可以顺着她们的对话与她们做爱，更多详情参见每个女性的对应章节。</li>
+
+<li>在你夺走 Bridget、Mira、Heather 的处女之身后，在你的床边再次召唤 Syfa。</li>
+
+</ol>
+<ol>
+<li>参观回廊（cloister），然后在你床上睡一觉；下次你参观回廊时，最终事件就会触发。</li>
+
+<li>根据你之前的路线，你现在会有不同的结局。在 Syfa 路线上只有 1 种结局：William 死去，Ar'ganas 伪装成 Jorge 接管修道院。在其他路线上，如果你输掉了与 Syfa 的战斗，你会被打晕，恶魔也会接管一切，但你毫不知情。如果你赢了战斗，你可以决定放逐（banish）或囚禁（imprison）Syfa。放逐意味着她消失了；囚禁意味着你将来也许能和她玩玩，甚至可能让她成为盟友。<strong>如果到这个时候 3 位女祭司中没有一个是处女，那么仪式就一定会失败！</strong> 所以如果你不想要那样，就别把她们的处女之身全拿走。——如果仪式成功，Mira 会获得新的力量，这些力量目前还没有做进游戏，但会在她的下一次更新中出现。</li>
+
+<li>有一幕场景中 Mira 可以偷看你偷看你和 Heather。<strong>除非你想让 Mira 开始 Aidalin 路线，否则要小心不要触发它。</strong> 如果 Mira 有 5+ 点堕落值（C），她就不会介意你背叛她（这意味着只有你允许，她才会自己这么做），这也会在 Emily 的房子里、她的床边触发一段新的对话。——现在说回场景：当 Mira 晚上在修道院里训练时，从她的房间外面偷看她，然后开始自慰；如果你把 Heather 的故事推进到她给你口交过的节点，她（如果还没睡的话）会出来看到你。之后你可以跟着她回她的房间，这样做会让 Mira 稍后跟来并偷看你们。如果她有 5+ 点堕落值（C），她会自慰。</li>
+</ol></div>
+</section>
+<section id="wt-mira" class="walkthrough-card" data-title="Mira 米拉">
+<header class="card-title"><h2>Mira 米拉</h2></header>
+<div class="card-body"><p>你的青梅竹马。和她的母亲 <a href="#wt-emily">Emily</a> 以及姐姐 <a href="#wt-frisha">Frisha</a> 住在一起。</p>
 
 <ol>
 <li>走进 Emily 的小屋，和 Emily 谈话。她会交给你一个任务：弄点木材和可以烹饪的东西。 弄木材你得找 Tia 谈，烹饪则要找食材。 你可以在瞭望台打猎。 如果你在 Penny 的田里干过活，就把蔬菜（胡萝卜/卷心菜）给她。</li>
@@ -483,168 +678,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>你可以在夜里偷看 Mira 准备睡觉（22 点），只要确保不被 Emily 抓住就行。</li>
 
 <li>如果在 Emily 的任务开始后你和 Mira 有 10+ 点好感度（A），你可以再次亲吻她，或者请她帮忙凑齐 Emily 的赎金。</li>
-</ul>
+</ul></div>
 </section>
-<section id="wt-church">
-<h2>教堂</h2>
-<p>完成 <a href="#wt-mira">Mira</a> 的故事，直到她加入教堂的部分。</p>
-
-<p>警告：这个任务建议 25 级以上，但当然任何等级都能做！</p>
-
-<ol>
-<li>Mira 成为见习修女 14 天后，神父要她接受一项仪式，以成为女祭司。</li>
-
-<li>白天（早上 7 点至下午 4 点之间）拜访教堂。</li>
-
-<li>可选：如果你已经完成了 Mira 的恋爱任务，你可以在下午去拜访她，开始用神圣符号训练她。</li>
-
-<li>3 天后 Aidalin 会抵达 Arenfield。在早上 7 点至下午 4 点之间拜访教堂。</li>
-
-<li>再等两天，直到你收到通知。然后和神父谈 Mira 的事。</li>
-
-<li>要继续推进，你需要主角（MC）家里的火把。你可以在夜里撬锁开门进入，也可以从 Giron 那里租到。</li>
-
-<li>你还需要 Bianca 教你的撬锁技能，才能打开地窖的门。</li>
-
-<ol>
-<li>在圣所（sanctum）内部，向西南走，直到你找到一扇关着的门。现在你必须为每一位神献上祭品。</li>
-</ol>
-<ul>
-<li>Uldar——邪恶生物的残骸（来自 Syfa 的瘟疫魔（Plaguefiend）或恶魔猴（Demonkey）的任意物品）。</li>
-
-<li>Gromthul——任意动物的血肉。</li>
-
-<li>Athia——一张羊皮纸，在 Lucius 的商店购买。</li>
-
-<li>矮人雕像——铜矿石。</li>
-
-<li>Alaira——任意药草或植物（可以从 Katherin 那里购买）。</li>
-
-<li>Isha——一瓶精液或精酿酒（cumwine）（参见 Lucius 的任务）。</li>
-
-</ul>
-<li>离开那扇门之后 Syfa 会出现。你在圣所里时她会追猎你。如果你想把她出现的接触降到最低，就在击败她之后不要与她互动。这会让你再多 60 秒（总共 120 秒），之后她才会再次出现。</li>
-
-<li>等你点亮了所有神像旁的圣像火把后，与门互动。在圣所里走到 Mira 面前。现在，如果你开启了 NTR 内容，你会得到一个选择。你可以选择相信 Mira，或者不相信。后者会带来一场性爱场景，但也会让 Mira 更进一步地把你们的关系只看作纯粹的肉体关系。</li>
-
-<li>回到教堂后，如果你没有相信 Mira，她现在会问你为什么这么做。如果你告诉她那是个错误、你爱她，她就没事了。如果你告诉她你不确定这段关系，这会为她开启与 Aidalin 约会的路线。</li>
-
-<li>回到家后你无法改变结局，但结局取决于你之前的选择。主要看你是否完成了 Emily 的故事，并决定告诉 Emily 你想和她发展关系。如果你这样做了，她会把这事告诉 Mira。如果你告诉 Emily 这一切只是玩玩而已，她就会保持沉默。如果你告诉 Mira 你不确定这段关系，她会离开桌子，并且绝口不提这件事。</li>
-
-<ol>
-<li>当 Mira 坐在床上时和她谈话。现在有 5 种不同的情况：</li>
-<li>你之前完成了 Mira 的恋爱任务，没在她面前上过 Syfa，也没告诉 Emily 你想发展关系——一切顺利，你可以和她好好玩玩。</li>
-
-<li>没完成 Mira 的恋爱任务，没在她面前上过 Syfa，也没告诉 Emily 你想发展关系——一切顺利，你现在可以带着略有改动的对话做这个恋爱任务。</li>
-
-<li>和 Mira 分手了——她会心碎。告诉她你不是那个意思，一切就会恢复正常……或者等上几天，她就会开始和 Aidalin 约会。如果你在他们接吻之后告诉她想让她回来，她会告诉你她不再确定是否还想让你回来，并会继续和 Aidalin 保持关系。</li>
-
-<li>告诉 Emily 你想发展关系，并且当着 Mira 的面上了 Syfa——她会告诉你她对你的信任已经动摇，她勉强能接受，但也会开始寻找其他男人（开启与 Aidalin 的关系）。</li>
-
-<li>告诉 Emily 你想发展关系，没当着 Mira 的面和 Syfa 干——Mira 会接受你同时和她以及她母亲保持关系。</li>
-
-</ol>
-<li>选项 4 和 5 会在未来带来可能的 3P 场景。我以后会为 Emily 加入其他"出柜"选项，但目前只有这一种方式能让 Mira 知道 Emily 的事，并且如果她还没完成恋爱任务，也会在恋爱任务中提及此事。</li>
-
-<li>神父现在会写一封信，但这个任务的后续步骤尚未实装。关于肛交和 Aidalin 路线的更多信息，参见 Mira。</li>
-</ol>
-</section>
-<section id="wt-monastery">
-<h2>修道院</h2>
-<p>完成 <a href="#wt-church">教堂</a> 后解锁修道院。</p>
-
-<p>你可以在修道院找到 <a href="#wt-mira">Mira</a> 、 <a href="#wt-bridget">Bridget</a> 、 <a href="#wt-heather">Heather</a> 、 <a href="#wt-agatha">Agatha</a> 和 Syfa。</p>
-
-<ol>
-<li>完成圣所里的事件并完成 Mira 的恋爱任务后（你也可以选择完全不和她发展关系），一辆马车会到达教堂，白天去拜访它。</li>
-
-<li>到达修道院后，你会面临一个决定：是否要摧毁主角（MC）房间里的封印。这样做会让你面临一个选择：是否站在 Syfa 一边。如果你决定这么做，你现在将站在教会的对立面（黑暗路线），你也将能够在沿途腐化女祭司们。</li>
-
-<li>第二天去教堂里见修道院院长，谈谈那起谋杀；如果你没走 Syfa 路线，也和他谈谈恶魔的事。并向他询问谋杀案。</li>
-
-<li>从现在起你可以和很多人谈话；看看任务日志，先找 Adson 谈，让他给你看受害者。</li>
-
-<li>检查尸体时，看看他的双手、胸口的伤和肩膀上的伤。</li>
-
-<li>找 Matthias（白天大部分时间都在田里）、Gabriel（在厨房里或田里）和 Antonius（在缮写室（scriptorium）里或门前）谈话。白天还要试着趁 Jorge 在给女人们上课时（缮写室）找他谈话，这会触发她们换上新衣服的场景。</li>
-
-<li>Antonius 会想到一个打开 Bernard 手的办法。为此你需要银根草（Silverroot，在修道院的墓地里找）、一片猪耳叶（lobe，在厨房里）——然后出去从井里打水。之后打开制作菜单，制作抗惊厥膏药（Anticonvulsant Poultice）。</li>
-
-<li>在与 William（修道院院长）的对话中，询问 Bernard 的纹身，他会给你 Bernard 房间的钥匙（Agatha 正睡在里面）。白天去 Agatha 的房间，这会导致一段躲藏场景。躲在床下，目睹 Agatha 和 Bridget 之间的对话。</li>
-
-<li>检查 Agatha 房间里祭坛上的那本书。</li>
-
-<li>用从 Agatha 房间拿到的钥匙，进入 Jorge 的房间（最左边的修士宿舍），检查里面的书，那就是你在找的账本。</li>
-
-<li>进入停放 Bernard 尸体的房间，检查他紧握的手，这会触发你之前准备好的抗惊厥膏药。</li>
-
-<li>现在等一天，再回到 Bernard 的尸体旁。你现在可以打开他的手了。</li>
-
-<li>你在他手里发现了数字 12，现在打开账本，查找那一页。</li>
-
-<li>回到 Agatha 的房间，四处走动，直到主角（MC）在某块石头下面发现东西——一封 Bernard 的来信。</li>
-
-<li>拿着信找 Gabriel 谈，他会让你查看你自己房间里 Matthias 的一个秘密藏匿点。</li>
-
-<li>检查你房间里床底下的东西，找到一封信和一笔钱，你可以把它们藏起来。你现在可以指控 Matthias，这是这个任务的 1 种结局。</li>
-
-<li>再和 Antonius 谈谋杀案，你现在可以去找 Aidalin，他在自己的房间里（之前是 Antonius 的房间）发现了凶器——下一步本应是指控 Antonius，但如果你没走 Syfa 路线，现在还不能指控他。以后再细说；如果你指控他，你之后还可以决定他是否真的有罪。</li>
-
-<ol>
-<li>你必须指控某个人，或者告诉 William 凶手已经逃跑了（只有推进过 Heather 的故事才可能），才能继续主线。</li>
-</ol>
-</ol>
-<p><strong>教会路线：</strong></p>
-<ol>
-<li>如果你没有站在 Syfa 一边，与 William 关于恶魔的对话会开启一个新任务：削弱 Syfa。和 Antonius 谈这件事，他会请你在缮写室里找一本书。你可以在缮写室最底下一层找到那本书。</li>
-
-<li>再和 Antonius 谈话，你现在必须返回 Arenfield，和神父（pater）谈话。</li>
-
-<li>下一步你必须推进 Gwen 的故事，直到你能进入她的第 2 个房间。你会在里面找到那个坏掉的项圈（broken collar）。</li>
-
-<li>前往废墟地图（Arianna 玩的地方），进入那座旧教堂，你会在里面找到黑曜石镜子（obsidian mirror）。</li>
-
-<li>带着项圈去找 John（Arenfield 的铁匠铺）——如果你会锻造，就可以自己修好项圈。用铁砧来修。你需要一颗影之宝石（shadow-jewel）。如果你没有（通常你可以通过圣所里的宝箱获得；如果你之前和 Syfa 的战斗中没有拿到钥匙，只要好感度够高，你的猫也能给你这些钥匙），就进入教堂下方的圣所，你会在靠近仪式室入口的地面上找到一颗。然后重新锻造项圈。</li>
-
-<li>回到 Antonius 那里，这就算完成准备工作了。</li>
-
-<ol>
-<li>根据你指控谁，最后会有人死去。</li>
-</ol>
-<ul>
-<li>如果你指控 Antonius，那么 Matthias 会死。</li>
-
-<li>如果你指控 Matthias，那么 William 会死。</li>
-
-<li>你也可以指控 Adson（这需要你找到 Agatha 的日记），那样的话 Matthias 也会死。</li>
-
-</ul>
-</ol>
-<p>（我原本计划设计一条 Adson 死去的路线，但因为那会对 Bridget 的故事产生影响，我决定放弃）。</p>
-
-<p>没有任何一条路线能让所有人都活下来。这种事未来可能会改。也许最好的选择是指控 Antonius，但决定权在你。</p>
-
-<p><strong>Syfa 路线：</strong></p>
-
-<ol>
-<li>如果你站在 Syfa 一边，等姐妹们拿到她们的新裙子后召唤她。她会给你假的塞子（plugs），你需要用它们换掉女祭司们正在使用的真塞子。</li>
-
-<li>这样做是可选的（如果你想腐化她们的话），但你可以顺着她们的对话与她们做爱，更多详情参见每个女性的对应章节。</li>
-
-<li>在你夺走 Bridget、Mira、Heather 的处女之身后，在你的床边再次召唤 Syfa。</li>
-
-</ol>
-<ol>
-<li>参观回廊（cloister），然后在你床上睡一觉；下次你参观回廊时，最终事件就会触发。</li>
-
-<li>根据你之前的路线，你现在会有不同的结局。在 Syfa 路线上只有 1 种结局：William 死去，Ar'ganas 伪装成 Jorge 接管修道院。在其他路线上，如果你输掉了与 Syfa 的战斗，你会被打晕，恶魔也会接管一切，但你毫不知情。如果你赢了战斗，你可以决定放逐（banish）或囚禁（imprison）Syfa。放逐意味着她消失了；囚禁意味着你将来也许能和她玩玩，甚至可能让她成为盟友。<strong>如果到这个时候 3 位女祭司中没有一个是处女，那么仪式就一定会失败！</strong> 所以如果你不想要那样，就别把她们的处女之身全拿走。——如果仪式成功，Mira 会获得新的力量，这些力量目前还没有做进游戏，但会在她的下一次更新中出现。</li>
-
-<li>有一幕场景中 Mira 可以偷看你偷看你和 Heather。<strong>除非你想让 Mira 开始 Aidalin 路线，否则要小心不要触发它。</strong> 如果 Mira 有 5+ 点堕落值（C），她就不会介意你背叛她（这意味着只有你允许，她才会自己这么做），这也会在 Emily 的房子里、她的床边触发一段新的对话。——现在说回场景：当 Mira 晚上在修道院里训练时，从她的房间外面偷看她，然后开始自慰；如果你把 Heather 的故事推进到她给你口交过的节点，她（如果还没睡的话）会出来看到你。之后你可以跟着她回她的房间，这样做会让 Mira 稍后跟来并偷看你们。如果她有 5+ 点堕落值（C），她会自慰。</li>
-</ol>
-</section>
-<section id="wt-tia">
-<h2>Tia 缇娅</h2>
-<p>Arenfield 北边的樵夫。<a href="#wt-katherin">Katherin</a> 的女儿。</p>
+<section id="wt-tia" class="walkthrough-card" data-title="Tia 缇娅">
+<header class="card-title"><h2>Tia 缇娅</h2></header>
+<div class="card-body"><p>Arenfield 北边的樵夫。<a href="#wt-katherin">Katherin</a> 的女儿。</p>
 
 <ol>
 <li>和她谈话（欲望值 &lt; 80）让她砍柴，重复此操作（如果好感度 &lt; 2，她还需要再砍一轮）。 当你因砍树而力量提升后，你现在知道怎么砍树了。旧废墟附近的树桩上有一把斧子。有了它，你就可以在森林里砍树了。</li>
@@ -883,11 +921,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>如果你在 Calan's Rest 输掉一场战斗，且 Katherin 没有被扣作人质，Zorad 会挑衅主角（MC），让他把 Katherin 送过去。然后你可以在她的小屋里找 Katherin 谈话，把她送到那里，这会释放 Tia（在 Katherin 的房子里等她）。</li>
 
 <li>如果你选择不杀 Zorad（输太多次），或者让 Tia 成为 Bolgan 的 moglia，你可以再次拜访 Zorad 的王座室，她会和 Bolgan 做爱。（她第二天晚上会回家）。如果 Zorad 还活着，有 50/50 的几率 Katherin 会出现加入。如果 Lyvia 在队伍里，而且她和兽人做过 10 次爱，她会加入，和另一名守卫干。（要找回 Lyvia，离开那张地图；她现在在另一个房间，你可以在那里杀掉与她做爱的兽人）。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-katherin">
-<h2>Katherin 凯瑟琳</h2>
-<p><a href="#wt-tia">Tia</a> 的母亲。出售药草。</p>
+<section id="wt-katherin" class="walkthrough-card" data-title="Katherin 凯瑟琳">
+<header class="card-title"><h2>Katherin 凯瑟琳</h2></header>
+<div class="card-body"><p><a href="#wt-tia">Tia</a> 的母亲。出售药草。</p>
 
 <ol>
 <li>完成 Tia 的故事，直到你救出 Katherin 为止。</li>
@@ -952,11 +990,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>在 Dasan 路线中，Katherin 来到 Rumah 后：Katherin 现在想除掉那个男人，于是想出了引诱他的计划；如果主角（MC）或 Zorad（如果还活着）没有在此之前让她怀孕，这最终会导致她怀上他的孩子。你可以在 Katherin 去 Dasan 帐篷拜访他时偷看她。</li>
 
 <li>在她怀孕并察觉之后，到主角（MC）的小屋外和她谈话；无论孩子的父亲是谁，结局都是 Katherin 会成为 Dasan 的 wanita。下次你偷看她去拜访他时，他们会当众在部落面前宣布这件事。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-kate">
-<h2>Kate 凯特</h2>
-<p>旅馆的女侍。<a href="#wt-claire">Claire</a> 的女儿。</p>
+<section id="wt-kate" class="walkthrough-card" data-title="Kate 凯特">
+<header class="card-title"><h2>Kate 凯特</h2></header>
+<div class="card-body"><p>旅馆的女侍。<a href="#wt-claire">Claire</a> 的女儿。</p>
 
 <ol>
 <li>如果你在旅馆过夜（Claire 的任务或花钱住宿），你会看到她在午夜 0 点和 Thomas 谈话。</li>
@@ -1175,11 +1213,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>如果你完成了"为去 Kirlic 做准备"的任务，你现在可以邀请 Rick 来一场 3P。为此：你需要告诉 Rick 你和 Kate 的关系，她必须和你肛交过，而且她的堕落值达到 20+。先找 Rick 谈 Kate（早上或酒吧里），然后当 Kate 在旅馆见 Rick 时（早上 9 点）找她谈话，当选项出现时给 Rick 一个信号。</li>
 
 <li>你和 Rick &amp; Kate 在谷仓里做过 5 次爱之后，他会请你让他单独和她玩玩。如果你同意，他可以在服务小游戏里为 Kate 积攒最多 5 点好感度。此时他们会每 2 天在 Kate 的房间里见面。如果他们以前有过一段关系而主角（MC）拆散了他们，对话会有所不同。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-claire">
-<h2>Claire 克莱尔</h2>
-<p>旅馆的厨师，<a href="#wt-kate">Kate（凯特）</a> 的母亲。</p>
+<section id="wt-claire" class="walkthrough-card" data-title="Claire 克莱尔">
+<header class="card-title"><h2>Claire 克莱尔</h2></header>
+<div class="card-body"><p>旅馆的厨师，<a href="#wt-kate">Kate（凯特）</a> 的母亲。</p>
 
 <ol>
 <li>白天在旅馆和她交谈，这样晚上你就能帮她干活。</li>
@@ -1250,11 +1288,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>如果她达到 C5，你的阵营达到 55+，而且当晚早些时候你给 Kate 喝了睡眠葡萄酒，你就可以要求她在 Kate 面前发生关系。</li>
 
 <li>如果 Claire 的 C 达到 10+，让她独处 3 天。然后在旅馆外面，当她正等着或和 Verena（维雷娜）说话时和她交谈。你现在可以选择和她私下谈谈。如果你是当着 Verena 的面这样做的，过一会儿她会来找 Claire。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-carmen">
-<h2>Carmen 卡门</h2>
-<p>Bjorn（比约恩）的妻子，在 Old Boar 旅馆。</p>
+<section id="wt-carmen" class="walkthrough-card" data-title="Carmen 卡门">
+<header class="card-title"><h2>Carmen 卡门</h2></header>
+<div class="card-body"><p>Bjorn（比约恩）的妻子，在 Old Boar 旅馆。</p>
 
 <ol>
 <li>要解锁她的内容，先把 <a href="#wt-kate">Kate（凯特）</a> 的故事推进到前往 Kirlic 的那个节点。</li>
@@ -1284,11 +1322,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>当 Bjorn 睡着时，可以在她的卧室里进行其他互动。</li>
 
 <li>你可以让她怀孕，但目前没有相关的场景。（她的肚子不会变大。）</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-lucius">
-<h2>Lucius 卢修斯</h2>
-<p>商店老板。</p>
+<section id="wt-lucius" class="walkthrough-card" data-title="Lucius 卢修斯">
+<header class="card-title"><h2>Lucius 卢修斯</h2></header>
+<div class="card-body"><p>商店老板。</p>
 
 <ol>
 <li>接到"控制你的欲望"任务后（见 <a href="#wt-mira">Mira（米拉）</a> 任务 3.），从他的商店购买麻醉剂。</li>
@@ -1312,11 +1350,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>右上方的架子上有一把镐，你可以买下来去森林里挖铜矿（需要力量）。</li>
 
 <li>你可以买中间架子上的地图，这样就能快速旅行到你去过的村庄了。（使用 选项 &gt; 按键设置 &gt; 把打开地图绑定到 'M' 或任何你想要的键，也可以通过物品打开地图）</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-frisha">
-<h2>Frisha 弗丽莎</h2>
-<p>裁缝。和她的母亲 <a href="#wt-emily">Emily（艾米莉）</a> 以及妹妹 <a href="#wt-mira">Mira（米拉）</a> 住在一起。</p>
+<section id="wt-frisha" class="walkthrough-card" data-title="Frisha 弗丽莎">
+<header class="card-title"><h2>Frisha 弗丽莎</h2></header>
+<div class="card-body"><p>裁缝。和她的母亲 <a href="#wt-emily">Emily（艾米莉）</a> 以及妹妹 <a href="#wt-mira">Mira（米拉）</a> 住在一起。</p>
 
 <ol>
 <li>和她交谈时，你可以每天送她一次礼物（项链、戒指、胸针）来提高她对你的好感度。这些可以在商店买到，从敌人身上掉落，在钱包里找到，也可以用感知技能在世界中发现。</li>
@@ -1423,11 +1461,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>晚餐时，如果她的 C 在 3+，且之前至少给他做过 1 次手活，她会给主角来一次手活。如果她的 C 在 6+，且之前给他做过至少 1 次口交，她现在会在饭桌旁这么做。</li>
 
 <li>如果你和她及 Emily 进行过 2 次三人行（Emily 必须醒着），晚上在她的房间里和她发生关系。她会要求再来一轮。如果你同意，Emily 会走进来，开始一个新的三人行场景。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-arianna">
-<h2>Arianna 阿里安娜</h2>
-<p>和她的母亲 <a href="#wt-verena">Verena（维雷娜）</a>、父亲 Roderic（罗德里克）以及哥哥 Rick（里克）住在一起。</p>
+<section id="wt-arianna" class="walkthrough-card" data-title="Arianna 阿里安娜">
+<header class="card-title"><h2>Arianna 阿里安娜</h2></header>
+<div class="card-body"><p>和她的母亲 <a href="#wt-verena">Verena（维雷娜）</a>、父亲 Roderic（罗德里克）以及哥哥 Rick（里克）住在一起。</p>
 
 <ol>
 <li>完成序章后，在 Darkwood 入口遇到她。</li>
@@ -1564,11 +1602,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>分享：即使你与 Arianna 走爱情线，你也可以和 Corven 开始一些事。在 Arianna 拜访 Rumah 期间，如果她看到 Nyra（尼拉）被两个男人操，和她交谈，她会提起关于分享的话题，你可以选择允许或禁止。</li>
 
 <li>分享：在 Corven 的场景中，如果你在她的房间里与 Arianna 肛交过，你现在可以加入。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-verena">
-<h2>Verena 维蕾娜</h2>
-<p><a href="#wt-arianna">Arianna（阿里安娜）</a> 和 Rick（里克）的母亲，Roderic（罗德里克）的妻子。</p>
+<section id="wt-verena" class="walkthrough-card" data-title="Verena 维蕾娜">
+<header class="card-title"><h2>Verena 维蕾娜</h2></header>
+<div class="card-body"><p><a href="#wt-arianna">Arianna（阿里安娜）</a> 和 Rick（里克）的母亲，Roderic（罗德里克）的妻子。</p>
 
 <ol>
 <li>（NTR）如果你在她家楼上被抓住，或在深夜被她撞见，她会在 2am 和丈夫谈论这件事（只有当 Roderic 不在酒窖里时）。 你可以从他们卧室门口或他们房间里的隔墙后偷看他们。 如果你换掉 Roderic 书房里的酒瓶，给他喝睡眠葡萄酒，他就不会和她做爱。</li>
@@ -1626,11 +1664,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>有一个 Verena 和 Arianna 的三人行场景，详情请看本攻略的 <a href="#wt-arianna">Arianna</a> 一节。</li>
 
 <li>三人行场景之后，在晚上单独和 Verena 做爱。之后她会谈论怀孕的事；如果你决定这么做，现在就可以让 Verena 怀孕（目前没有进一步的孕期阶段）。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-rose">
-<h2>Rose 萝丝</h2>
-<p>Kirlic 的 Golden Goose 旅馆的女招待。</p>
+<section id="wt-rose" class="walkthrough-card" data-title="Rose 萝丝">
+<header class="card-title"><h2>Rose 萝丝</h2></header>
+<div class="card-body"><p>Kirlic 的 Golden Goose 旅馆的女招待。</p>
 
 <ol>
 <li>认识她之后，她为你在桌边服务时，你可以通过给她小费来提高她对你的好感度。把好感度提高到 5，才能继续下去。</li>
@@ -1660,11 +1698,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 
 <ol>
 <li>坐在桌边，在 9pm 让那位贵族对 Rose 为所欲为，这最终会发展成他们做爱。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-emily">
-<h2>Emily 艾米丽</h2>
-<p><a href="#wt-mira">Mira（米拉）</a> 和 <a href="#wt-frisha">Frisha（弗里莎）</a> 的母亲。</p>
+<section id="wt-emily" class="walkthrough-card" data-title="Emily 艾米丽">
+<header class="card-title"><h2>Emily 艾米丽</h2></header>
+<div class="card-body"><p><a href="#wt-mira">Mira（米拉）</a> 和 <a href="#wt-frisha">Frisha（弗里莎）</a> 的母亲。</p>
 
 <ol>
 <li>你可以通过给她兔肉来提高她对你的好感度（狩猎：见 <a href="#wt-corven">Corven（科尔文）</a>，或者晚上在旅馆里买）。</li>
@@ -1827,11 +1865,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>失败太多次，Emily 会和那个强盗做爱（小场景）。</li>
 
 <li>第二次之后：输给看守她的那个强盗。如果 Imawyn（伊玛温）的 C 也到了 10，场景会延长（小场景）。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-corven">
-<h2>Corven 科尔文</h2>
-<p>森林里的猎人。</p>
+<section id="wt-corven" class="walkthrough-card" data-title="Corven 科尔文">
+<header class="card-title"><h2>Corven 科尔文</h2></header>
+<div class="card-body"><p>森林里的猎人。</p>
 
 <ol>
 <li>请他喝一杯。</li>
@@ -1843,11 +1881,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>把野兔爪带给他，这会让你获得一点狩猎技能。</li>
 
 <li>有他和 Arianna（阿里安娜）的三人行场景，详情请看本攻略的 <a href="#wt-arianna">Arianna</a> 一节。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-john">
-<h2>John 约翰</h2>
-<p>铁匠。<a href="#wt-melissa">Melissa（梅丽莎）</a> 的父亲。</p>
+<section id="wt-john" class="walkthrough-card" data-title="John 约翰">
+<header class="card-title"><h2>John 约翰</h2></header>
+<div class="card-body"><p>铁匠。<a href="#wt-melissa">Melissa（梅丽莎）</a> 的父亲。</p>
 
 <ol>
 <li>和他交谈，他会花 20 银币帮你磨利匕首。</li>
@@ -1883,11 +1921,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>任务完成。</li>
 
 </ol>
-<p>John 帮你武装手下那部分将是 Lyvia 的下一次更新内容！</p>
+<p>John 帮你武装手下那部分将是 Lyvia 的下一次更新内容！</p></div>
 </section>
-<section id="wt-melissa">
-<h2>Melissa 梅丽莎</h2>
-<p><a href="#wt-john">John（约翰）</a> 的女儿。</p>
+<section id="wt-melissa" class="walkthrough-card" data-title="Melissa 梅丽莎">
+<header class="card-title"><h2>Melissa 梅丽莎</h2></header>
+<div class="card-body"><p><a href="#wt-john">John（约翰）</a> 的女儿。</p>
 
 <ol>
 <li>国王到访一周后，Melissa 会出现在她父亲家里。（你得去那里，事件就会发生）。</li>
@@ -1937,11 +1975,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>下一步你要么需要 15A，要么需要 5C，要么 Melissa 已经和那些混混上过床。— 在 John 上床睡觉之后再来看她，她现在会同意做爱。</li>
 
 <li>她现在也同意早上在她的床上做爱。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-imawyn">
-<h2>Imawyn 伊玛温</h2>
-<p>强盗头目。</p>
+<section id="wt-imawyn" class="walkthrough-card" data-title="Imawyn 伊玛温">
+<header class="card-title"><h2>Imawyn 伊玛温</h2></header>
+<div class="card-body"><p>强盗头目。</p>
 
 <ol>
 <li>将 <a href="#wt-emily">Emily</a>（艾米丽）的任务推进到第 5 步。</li>
@@ -1998,11 +2036,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>每次你射在她嘴里都会提高堕落值。在与她做爱之后再这么做可以加快进程。堕落值达到 10 时进入她的帐篷……从现在起你就不再需要把强盗们弄睡着了。</li>
 
 <li>堕落值达到 10 时，如果你输给看守 Emily 的守卫，会解锁一小段奖励场景。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-lyvia">
-<h2>Lyvia 莉薇亚</h2>
-<p>民兵队长。</p>
+<section id="wt-lyvia" class="walkthrough-card" data-title="Lyvia 莉薇亚">
+<header class="card-title"><h2>Lyvia 莉薇亚</h2></header>
+<div class="card-body"><p>民兵队长。</p>
 
 <ol>
 <li>1. <a href="#wt-imawyn">Imawyn</a>（伊玛温）被俘之后，下午在训练场附近与她交谈。</li>
@@ -2144,11 +2182,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 
 <ol>
 <li>如果你允许 Lyvia 与佣兵做爱，当她独自留在营地，或你在夜间（22 点）进入另一个女人的帐篷时，她会与一名佣兵做爱；你也可以直接与她帐篷旁的佣兵交谈，让他进去。如果你与 Lyvia 训练过肛交，你可以加入其中。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-maui">
-<h2>Maui 马乌伊</h2>
-<p>雌性兽人。</p>
+<section id="wt-maui" class="walkthrough-card" data-title="Maui 马乌伊">
+<header class="card-title"><h2>Maui 马乌伊</h2></header>
+<div class="card-body"><p>雌性兽人。</p>
 
 <ol>
 <li>在狩猎场狩猎期间输给兽人。</li>
@@ -2166,11 +2204,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 </ol>
 <h4>NTR：</h4>
 
-<p>如果你派 Tia 或 Raaisha（拉伊莎）去与兽人交合，而你在 Maui 的棚屋外操她，她们会出现在她的性爱场景中。</p>
+<p>如果你派 Tia 或 Raaisha（拉伊莎）去与兽人交合，而你在 Maui 的棚屋外操她，她们会出现在她的性爱场景中。</p></div>
 </section>
-<section id="wt-bianca">
-<h2>Bianca 比安卡</h2>
-<p>Arenfield，位于北边 Darkwood 附近。教授撬锁。"学生"是 <a href="#wt-gavina">Gavina</a>（加维娜） 。</p>
+<section id="wt-bianca" class="walkthrough-card" data-title="Bianca 比安卡">
+<header class="card-title"><h2>Bianca 比安卡</h2></header>
+<div class="card-body"><p>Arenfield，位于北边 Darkwood 附近。教授撬锁。"学生"是 <a href="#wt-gavina">Gavina</a>（加维娜） 。</p>
 
 <ol>
 <li>在夜间（0:00-6:00）与她交谈。</li>
@@ -2263,11 +2301,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>或者，你可以请 Bianca 与 Gritz（格里茨）交朋友，当她在 Fanghul 时。先与 Gritz 交谈，再与 Bianca 交谈。根据路线，你需要在几天后再与 Bianca 交谈，并让她更主动地推进（这会导致她与 Gritz 做爱）。如果你与 Bianca 训练过肛交至少 5 次，当他们在夜间做爱时你可以加入。</li>
 
 <li>还有一个 Bianca 与队伍其他成员的战败场景，前提是你被哥布林打败——无论是在普通矿洞还是深层矿洞。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-gavina">
-<h2>Gavina 加维娜</h2>
-<p><a href="#wt-bianca">Bianca</a>（碧昂卡） 的"师父"。</p>
+<section id="wt-gavina" class="walkthrough-card" data-title="Gavina 加维娜">
+<header class="card-title"><h2>Gavina 加维娜</h2></header>
+<div class="card-body"><p><a href="#wt-bianca">Bianca</a>（碧昂卡） 的"师父"。</p>
 
 <ol>
 <li>完成 Bianca 的剧情直到与她见面的部分。</li>
@@ -2313,11 +2351,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>堕落值较高时，Gavina 在做爱时会有略有不同的对话，肛交 10 次之后她会开始享受肛交。</li>
 
 <li>完成哥布林任务的第一步之后（进入深层矿洞之后），Gavina 会在家里等着你，为你准备了一个小惊喜。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-ugotha">
-<h2>Ugotha 乌戈萨</h2>
-<p>哥布林女王。<a href="#wt-snikka">Snikka</a>（斯妮卡） 之母 。</p>
+<section id="wt-ugotha" class="walkthrough-card" data-title="Ugotha 乌戈萨">
+<header class="card-title"><h2>Ugotha 乌戈萨</h2></header>
+<div class="card-body"><p>哥布林女王。<a href="#wt-snikka">Snikka</a>（斯妮卡） 之母 。</p>
 
 <ol>
 <li>在 Bianca（碧昂卡）的任务中你会进入深层矿洞。在哥布林村庄 Fanghul 的第一次对话中，你可以决定与她建立联结。（目前这是唯一可用的选项。）</li>
@@ -2336,21 +2374,21 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 
 <li>进入她的帐篷，拿走梳子（帐篷左侧梳妆台上），把它带到营地的 Imawyn（伊玛温）那里，扭曲这个联结，从而从此支配 Ugotha。</li>
 </ul>
-</ol>
+</ol></div>
 </section>
-<section id="wt-snikka">
-<h2>Snikka 斯妮卡</h2>
-<p>是 <a href="#wt-ugotha">Ugotha</a>（乌戈萨） 之女。</p>
+<section id="wt-snikka" class="walkthrough-card" data-title="Snikka 斯妮卡">
+<header class="card-title"><h2>Snikka 斯妮卡</h2></header>
+<div class="card-body"><p>是 <a href="#wt-ugotha">Ugotha</a>（乌戈萨） 之女。</p>
 
 <ol>
 <li>完成 Bianca（碧昂卡）关于黑暗精灵的任务之后，她会给你展示一条通往 Fanghul 的新路，这条路会连接你的佣兵营地。</li>
 
 <li>晚上她在帐篷里时（午夜-凌晨 3 点），有一段她自慰的场景，根据你的进度不同，有 3 种不同的对话变体。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-natasha">
-<h2>Natasha 娜塔莎</h2>
-<p>教堂的祭司。</p>
+<section id="wt-natasha" class="walkthrough-card" data-title="Natasha 娜塔莎">
+<header class="card-title"><h2>Natasha 娜塔莎</h2></header>
+<div class="card-body"><p>教堂的祭司。</p>
 
 <ol>
 <li>白天她在教堂的雕像附近时与她交谈，谈谈你的诅咒。</li>
@@ -2376,11 +2414,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 
 <ul>
 <li>在她的房间里，选择一些不涉及与她做爱的选项。然后，一旦可用，选择让她去拜访神父。之后在他的门口偷看。从现在起，如果玩家当天没有与她互动，她会在晚上 8 点去拜访神父。偷看他们时，会随机播放 2 种不同的动画。</li>
-</ul>
+</ul></div>
 </section>
-<section id="wt-ophilia">
-<h2>Ophilia 奥菲莉亚</h2>
-<p>旅行商人。每周四和周五在 Arenfield。</p>
+<section id="wt-ophilia" class="walkthrough-card" data-title="Ophilia 奥菲莉亚">
+<header class="card-title"><h2>Ophilia 奥菲莉亚</h2></header>
+<div class="card-body"><p>旅行商人。每周四和周五在 Arenfield。</p>
 
 <ol>
 <li>在集市广场上与她交谈。</li>
@@ -2428,11 +2466,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>不过对于那些想把 Ophilia 置于不利境地的人来说，还有一个选项……下次她去拜访 Thomas 时，你偷看他们（撬开锁），她会请他给她一份工作。他会允许她管理他的财务。</li>
 
 <li>如果你之后从 Thomas 那里偷钱，他会把这事栽赃给 Ophilia。如果你重复这样做，他们的关系会进一步发展。在他们做过爱之后，你可以在晚上在你的卧室里要求她停止拜访 Thomas，来与她当面对质。你现在可以选择与她分手或继续这段关系。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-anya">
-<h2>Anya 安雅</h2>
-<p>在 Arenfield 的南端。</p>
+<section id="wt-anya" class="walkthrough-card" data-title="Anya 安雅">
+<header class="card-title"><h2>Anya 安雅</h2></header>
+<div class="card-body"><p>在 Arenfield 的南端。</p>
 
 <p>她的内容在序章结束后立即可用，但你需要大约 35 级以上才能完成她的任务（以及合适的装备）。</p>
 
@@ -2523,11 +2561,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>当她晚上 8 点准备睡觉时，去她的卧室拜访她。</li>
 
 <li>如果你在归还她的钱之后的早晨（6-9 点）去拜访她，并闯入她的房子，你可以看她做运动。她会做 4 种运动中的哪一种，是随机的。</li>
-</ul>
+</ul></div>
 </section>
-<section id="wt-penny">
-<h2>Penny 佩妮</h2>
-<p>农夫的女儿，Arenfield 南部。</p>
+<section id="wt-penny" class="walkthrough-card" data-title="Penny 佩妮">
+<header class="card-title"><h2>Penny 佩妮</h2></header>
+<div class="card-body"><p>农夫的女儿，Arenfield 南部。</p>
 
 <ol>
 <li>序章完成后，在她在地里时与她交谈，并同意帮助她。</li>
@@ -2688,11 +2726,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>Penny 忏悔——Penny 会因违反教义的行为（任何形式的做爱）积累罪孽点，当她达到 5 点罪孽点（与她肛交/正常性交）时——如果 Penny 去教堂忏悔（上午 9 点），你会收到通知。——要让场景发生，你必须在她祈祷时去教堂看她，并且 Natasha 必须站在她旁边。要说服她让你进来，她必须有 15+ 的堕落值，并且你必须在最近与她在地里做过爱（在她忏悔之前，这只有第一次是必须的，之后可选）。</li>
 
 <li>场景的第二部分，你必须已经腐化了 Natasha，即到你可以与她做爱的程度。无论她保持正常角色还是处于堕落状态，两个版本都有效。如果她在场景第 1 部分结束时处于那种状态，且 Penny 达到 2 次高潮（只有第一次必须），那么第 2 部分会触发，你可以去教堂地下室拜访她。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-lilly">
-<h2>Lilly 莉莉</h2>
-<p>Coldstone 庄园的女仆</p>
+<section id="wt-lilly" class="walkthrough-card" data-title="Lilly 莉莉">
+<header class="card-title"><h2>Lilly 莉莉</h2></header>
+<div class="card-body"><p>Coldstone 庄园的女仆</p>
 
 <ol>
 <li>在你参观过 Coldstone 庄园并认识她之后（在 Penny 的任务期间），才能与她互动。</li>
@@ -2717,11 +2755,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 
 <li>如果你同意做她的男朋友，你就可以在她的房间里进行更多性互动。还要确保通过在白天或夜晚与她互动来提高她的好感度。当她的好感度达到 15+ 时，夜晚你可以进行最后的互动，这将是目前她剧情进度的终点。</li>
 </ul>
-</ol>
+</ol></div>
 </section>
-<section id="wt-elisabeth">
-<h2>Elisabeth 伊丽莎白</h2>
-<ol>
+<section id="wt-elisabeth" class="walkthrough-card" data-title="Elisabeth 伊丽莎白">
+<header class="card-title"><h2>Elisabeth 伊丽莎白</h2></header>
+<div class="card-body"><ol>
 <li>在 Abraham 的书房拜访期间认识她之后，在白天 12-4pm 期间拜访她。</li>
 
 <li>与庄园东侧外面的 2 个农民交谈并贿赂他们。</li>
@@ -2731,11 +2769,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>洗个澡，然后选择任一面具。</li>
 
 <li>目前没有其他互动可能。如果你没有被选中，你可以打晕获胜的农民；如果你不这样做，他就会操 Elisabeth，你可以在 2am 观看。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-gwen">
-<h2>Gwen 格温</h2>
-<p>小屋里的女巫。 <a href="#wt-sabrina">Sabrina</a> 的主人。</p>
+<section id="wt-gwen" class="walkthrough-card" data-title="Gwen 格温">
+<header class="card-title"><h2>Gwen 格温</h2></header>
+<div class="card-body"><p>小屋里的女巫。 <a href="#wt-sabrina">Sabrina</a> 的主人。</p>
 
 <ol>
 <li>完成序章后，到她的屋子里与她交谈并与她做爱（4 次），直到她的堕落值达到 20（你可以在关系菜单中看到她当前的堕落值）。之后她每天都会失去堕落值。如果降到 0，她就会变回原来的样子。要推进她的任务，你必须始终帮助她保持新形态。</li>
@@ -2775,11 +2813,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>之后回到 Gwen 那里，她会在她的房间里与你私下交谈。之后你将目睹仪式。</li>
 
 <li>回到 Gwen 身边，再次谈论与她结盟。她现在会与你建立连接。从现在开始，只要你使用她的任何魔法，就会增加她的堕落值。你还会学到新的法术。如果 Gwen 的堕落值达到 100，你将获得一个增益效果，进一步提高你的魔法伤害/防御，并让你对中毒/流血免疫。如果她的堕落值降到 5 以下，她会从你身上吸取能量来恢复部分堕落值。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-sabrina">
-<h2>Sabrina 萨布丽娜</h2>
-<p><a href="#wt-gwen">Gwen</a> 的学徒。</p>
+<section id="wt-sabrina" class="walkthrough-card" data-title="Sabrina 萨布丽娜">
+<header class="card-title"><h2>Sabrina 萨布丽娜</h2></header>
+<div class="card-body"><p><a href="#wt-gwen">Gwen</a> 的学徒。</p>
 
 <ol>
 <li>完成 Gwen 故事线的第 3 个谜题后，在晚上（8pm+）当她坐在床上时与她交谈。</li>
@@ -2799,11 +2837,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>在你翻修了房子、在房子里建了一张床并允许 Athia 与你住在一起，并且你完成了之前与 Sabrina 的步骤之后，她会来拜访你。根据路线，她会给你一些关于她与 Gwen 处境的见解。从现在开始（如果你没有拒绝她），你可以邀请她来你家拜访。</li>
 
 <li>Athia &amp; Sabrina Winterhowl 场景：如果你在 12 月（现实时间或游戏内）邀请 Sabrina 到你的床上，你可以邀请她加入你的 Winterhowl 之旅。为此你必须装饰房子，并在厨房里放一棵树。然后在下午/晚上与树互动，你可以望向窗外，Sabrina 会过来加入你和 Athia。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-athia">
-<h2>Athia 阿西娅</h2>
-<p>智慧女神。</p>
+<section id="wt-athia" class="walkthrough-card" data-title="Athia 阿西娅">
+<header class="card-title"><h2>Athia 阿西娅</h2></header>
+<div class="card-body"><p>智慧女神。</p>
 
 <ol>
 <li>要开始她的内容，完成 <a href="#wt-gwen">Gwen</a> 的故事直到召唤她的仪式那一步。之后在小屋里再次与 Gwen 谈论结盟。这应该会在你下次离开小屋时开启任务。</li>
@@ -2846,11 +2884,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>之后所有动作都可以重放，要么洗个澡，要么在她的房间里与她交谈/在午夜偷看她。</li>
 
 <li>如果在 H 线（2H），你可以在早上 9am 她躺在床上看书时与她交谈。这会触发一个每周计时器，之后她会找到信息（或者你可以把她的路线完成到第 17 步来立即访问这个内容）。计时器只是为那些不想与她发生任何性内容的人准备的。这现在会开启一个围绕教堂的新任务。目前还没有太多可探索的内容，将来会继续。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-bridget">
-<h2>Bridget 布丽奇特</h2>
-<p>女祭司。<a href="#wt-agatha">Agatha</a> 的女儿。作为 <a href="#wt-monastery">修道院</a> 的一部分解锁。</p>
+<section id="wt-bridget" class="walkthrough-card" data-title="Bridget 布丽奇特">
+<header class="card-title"><h2>Bridget 布丽奇特</h2></header>
+<div class="card-body"><p>女祭司。<a href="#wt-agatha">Agatha</a> 的女儿。作为 <a href="#wt-monastery">修道院</a> 的一部分解锁。</p>
 
 <ol>
 <li>在她晚上拿到新裙子之后，带着 Gabriel 的食物去拜访她。</li>
@@ -2874,11 +2912,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>带着信回到 Bridget 身边，她现在愿意配合你最初的计划。要触发与她的口交（BJ）场景，你必须在她嘴里射一次精（射精时拔出）。</li>
 
 <li>你最终会在某个时候让她怀孕，目前这不会导致大肚子或分娩，但当我继续她的故事时，这会在某个时候发生。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-agatha">
-<h2>Agatha 阿加莎</h2>
-<p>Parakis 的大祭司。<a href="#wt-bridget">Bridget</a> 的母亲。作为 <a href="#wt-monastery">修道院</a> 的一部分解锁。</p>
+<section id="wt-agatha" class="walkthrough-card" data-title="Agatha 阿加莎">
+<header class="card-title"><h2>Agatha 阿加莎</h2></header>
+<div class="card-body"><p>Parakis 的大祭司。<a href="#wt-bridget">Bridget</a> 的母亲。作为 <a href="#wt-monastery">修道院</a> 的一部分解锁。</p>
 
 <ol>
 <li>在 Bridget 请你帮她找日记之后，溜进她的房间检查她的床，然后你可以试着伸手到她枕头下面，为此你必须通过一次敏捷检定（你可以故意选择快速完成的选项来失败）。</li>
@@ -2899,11 +2937,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>任一路线都会有不同的对话和略有不同的动画，腐化她也是可能的，在她堕落值达到 5C+ 时，她会在午夜开始自慰。（所以最好先存档，然后再选择你偏好的路线）。</li>
 
 <li>如果你后来决定指控 Adson（只有在你拿到了她的日记，并且还在你的房间里找到了给 Matthias 的信时才可能），她会非常愤怒，但如果你勒索她，她仍会继续做你的仆人。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-heather">
-<h2>Heather 希瑟</h2>
-<p>女祭司。作为 <a href="#wt-monastery">修道院</a> 的一部分解锁。</p>
+<section id="wt-heather" class="walkthrough-card" data-title="Heather 希瑟">
+<header class="card-title"><h2>Heather 希瑟</h2></header>
+<div class="card-body"><p>女祭司。作为 <a href="#wt-monastery">修道院</a> 的一部分解锁。</p>
 
 <ol>
 <li>在 Gabriel 请你把晚餐送给女祭司们之后，在晚上送去，确保你之前看到她拿到了新裙子（见 <a href="#wt-mira">Mira</a>）。</li>
@@ -2919,11 +2957,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>你可以在之后晚上与她谈论这件事（前提是那时主角没有在她面前赤裸）。</li>
 
 <li>仪式后与她有一小段对话，但对当前的她的场景没有直接影响。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-rumah">
-<h2>鲁玛村</h2>
-<p>跟随 <a href="#wt-tia">Tia</a> 的任务线来到这里。</p>
+<section id="wt-rumah" class="walkthrough-card" data-title="鲁玛村">
+<header class="card-title"><h2>鲁玛村</h2></header>
+<div class="card-body"><p>跟随 <a href="#wt-tia">Tia</a> 的任务线来到这里。</p>
 
 <ol>
 <li>Hiba：你可以通过给她精酒来腐化她（当你还有一小瓶精液时使用物品栏中的酒（见 <a href="#wt-lucius">Lucius</a> 的任务））</li>
@@ -2940,11 +2978,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>Ayita：在你带给 Palak 他要求的肉之后，再次与他交谈。他会告诉你他爱上了 Ayita，希望她能注意到他。更多信息见 <a href="#wt-ayita">Ayita</a>。</li>
 
 <li>Umin：给他木材之后再次与他交谈，用 5 块古木（Elderwood）他会给你一把新弓。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-raaisha">
-<h2>Raaisha 拉伊莎</h2>
-<p><a href="#wt-rumah">Rumah 村</a> 的猎人。</p>
+<section id="wt-raaisha" class="walkthrough-card" data-title="Raaisha 拉伊莎">
+<header class="card-title"><h2>Raaisha 拉伊莎</h2></header>
+<div class="card-body"><p><a href="#wt-rumah">Rumah 村</a> 的猎人。</p>
 
 <ol>
 <li>处理完兽人（无论如何处理）之后，在酋长小屋外与她交谈。</li>
@@ -2988,11 +3026,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>事件结束后，从正门进入 Madrag Kaz（要休息好并存档）。这次兽人会放你过去。</li>
 
 <li>返回 Rumah 并与 Raaisha 交谈。这会开启一个新场景，在酋长小屋里也可以触发。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-hiba">
-<h2>Hiba 希芭</h2>
-<p><a href="#wt-rumah">Rumah 村</a> 的村民。</p>
+<section id="wt-hiba" class="walkthrough-card" data-title="Hiba 希芭">
+<header class="card-title"><h2>Hiba 希芭</h2></header>
+<div class="card-body"><p><a href="#wt-rumah">Rumah 村</a> 的村民。</p>
 
 <ol>
 <li>有 2 种方式可以获得 Hiba：</li>
@@ -3007,11 +3045,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>Raaisha 会把 Hiba 收进她的小屋。你现在可以去那里拜访她。如果你已经完成了 Raaisha 的故事到她成为你的 wanita 那一步，或者你走了 Dasan 路线，你就可以与她们两人进行 3P。与 Hiba 互动来开始这个，或者在午夜爬上 Raaisha 的小屋。</li>
 
 </ol>
-<p>要与 Ayita 进行 3P，见 <a href="#wt-ayita">Ayita</a> 。</p>
+<p>要与 Ayita 进行 3P，见 <a href="#wt-ayita">Ayita</a> 。</p></div>
 </section>
-<section id="wt-nyra">
-<h2>Nyra 妮拉</h2>
-<p>位于 <a href="#wt-rumah">Rumah 村</a> 的酋长妻子，Dasan 的母亲。</p>
+<section id="wt-nyra" class="walkthrough-card" data-title="Nyra 妮拉">
+<header class="card-title"><h2>Nyra 妮拉</h2></header>
+<div class="card-body"><p>位于 <a href="#wt-rumah">Rumah 村</a> 的酋长妻子，Dasan 的母亲。</p>
 
 <ol>
 <li>在她的丈夫被杀后，根据你选择如何处置 Dasan，她会走向不同的剧情分支。（参见 <a href="#wt-tia">Tia</a> 第 17 步。）</li>
@@ -3033,11 +3071,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>Rumah 的冬嚎节（Winterhowl）：要触发该事件，必须是游戏内或现实中的 12 月（你也可以修改电脑的系统时间）。在 Nyra 成为你的 wanita 之后前往 Rumah，这会触发一个任务，你需要砍伐一些冷杉树（所有带针叶的树）。再次拜访她，给她时间去装饰。期间去拜访 Frisha，为她买一条连衣裙。带着连衣裙回到 Nyra 那里。这还会解锁酋长小屋内一个新的肛交场景。</li>
 
 <li>如果你带着 Tia 一起进入酋长小屋拜访 Nyra，她会留下来旁观（前提是她的堕落值达到 C15+）。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-ayita">
-<h2>Ayita 阿伊塔</h2>
-<p><a href="#wt-rumah">Rumah 村</a>的舞者。</p>
+<section id="wt-ayita" class="walkthrough-card" data-title="Ayita 阿伊塔">
+<header class="card-title"><h2>Ayita 阿伊塔</h2></header>
+<div class="card-body"><p><a href="#wt-rumah">Rumah 村</a>的舞者。</p>
 
 <p>在你把肉带给 Palak 后，他会再次要求与你交谈。他会告诉你他爱上了 Ayita，希望她能注意到他。现在有 3 个选项可以推进剧情（建议先存档）：</p>
 
@@ -3082,11 +3120,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 
 <h4>与 Hiba 的三人行：</h4>
 
-<p>在火边把她叫过来且 Hiba 就在你旁边时，你可以让 Ayita 过去与 Hiba 来一场三人行场景。这需要 Hiba 是你的 wanita，或者 Rumah 已开启共享（sharing）选项。</p>
+<p>在火边把她叫过来且 Hiba 就在你旁边时，你可以让 Ayita 过去与 Hiba 来一场三人行场景。这需要 Hiba 是你的 wanita，或者 Rumah 已开启共享（sharing）选项。</p></div>
 </section>
-<section id="wt-umah">
-<h2>Umah 乌玛</h2>
-<p>兽人酋长的女儿。</p>
+<section id="wt-umah" class="walkthrough-card" data-title="Umah 乌玛">
+<header class="card-title"><h2>Umah 乌玛</h2></header>
+<div class="card-body"><p>兽人酋长的女儿。</p>
 
 <ol>
 <li>要解锁她的内容，需要把 <a href="#wt-raaisha">Raaisha</a> 的任务推进到第 21 步。</li>
@@ -3132,11 +3170,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>第二天再约她一次，她会让你去她的帐篷，至此任务结束。</li>
 
 <li>现在你可以再和她出去，或者直接在她的帐篷里做爱。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-darkholt">
-<h2>重建达克霍特</h2>
-<ol>
+<section id="wt-darkholt" class="walkthrough-card" data-title="重建达克霍特">
+<header class="card-title"><h2>重建达克霍特</h2></header>
+<div class="card-body"><ol>
 <li>要进入本部分，先跟随 <a href="#wt-arianna">Arianna</a> 关于邪教的故事线。</li>
 
 <li>救出 Arianna 后，在夜晚回到废墟附近教堂下方的藏身处，悄悄钻进 Saiel 房间里的床。</li>
@@ -3194,11 +3232,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 
 </ul>
 <li>现在你可以再次拜访 Roderic，向他汇报你的发现。这是该任务线目前的最新进度。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-mansion">
-<h2>市长宅邸</h2>
-<ol>
+<section id="wt-mansion" class="walkthrough-card" data-title="市长宅邸">
+<header class="card-title"><h2>市长宅邸</h2></header>
+<div class="card-body"><ol>
 <li>要进入其中，你需要用一瓶葡萄酒贿赂 Arenfield 桥边的守卫。</li>
 
 <li><img src="images/mansion1.jpg" alt="img" loading="lazy"> 沿着河水从宅邸下方流过的路径前进，找到秘密入口。到了那里你需要一把火把才能继续。火把可以在主角的房子里找到。（要么拜访市长并支付 20 金币，要么如果你已经开始了 Bianca 的任务，可以在午夜后用撬锁打开门。）</li>
@@ -3224,11 +3262,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 </ol>
 <h4>NTR：</h4>
 
-<p>你可以把仆人卧室里的酒瓶换成精酿酒（用葡萄酒瓶+精液瓶制作）。午夜时分，Julia 的堕落值会 +1C，等她这样做了 5 次之后，她会在上床前与 Joseph 发生性关系（<strong> 仅当你在与 Yasmine 的对话中拒绝过她（Julia）的恋爱选项时才会触发</strong> ）。</p>
+<p>你可以把仆人卧室里的酒瓶换成精酿酒（用葡萄酒瓶+精液瓶制作）。午夜时分，Julia 的堕落值会 +1C，等她这样做了 5 次之后，她会在上床前与 Joseph 发生性关系（<strong> 仅当你在与 Yasmine 的对话中拒绝过她（Julia）的恋爱选项时才会触发</strong> ）。</p></div>
 </section>
-<section id="wt-julia">
-<h2>Julia 茱莉亚</h2>
-<p><a href="#wt-mansion">市长大宅</a>中的女仆。</p>
+<section id="wt-julia" class="walkthrough-card" data-title="Julia 茱莉亚">
+<header class="card-title"><h2>Julia 茱莉亚</h2></header>
+<div class="card-body"><p><a href="#wt-mansion">市长大宅</a>中的女仆。</p>
 
 <ol>
 <li>攻略 Julia 有 2 条路线：</li>
@@ -3253,11 +3291,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>使用 Giron 书房里的书架，在他身处其中时选择"躲藏并偷听"。Julia 随后会进来，两人会进行一段简短的对话。</li>
 
 <li>在厨房与 Julia 交谈。这也会改变她与 Yasmine 在钢琴旁的那场戏。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-liandra">
-<h2>Liandra 莉安德拉</h2>
-<p>Kirlic 未来的男爵夫人。</p>
+<section id="wt-liandra" class="walkthrough-card" data-title="Liandra 莉安德拉">
+<header class="card-title"><h2>Liandra 莉安德拉</h2></header>
+<div class="card-body"><p>Kirlic 未来的男爵夫人。</p>
 
 <ol>
 <li>完成 <a href="#wt-frisha">Frisha</a> 的任务，推进到你要么把她从 Dave 手中解救出来、要么他们现在定期见面偷情的节点之后，再次潜入市长的书房，在书架里选择"躲藏并偷听"。男爵会告诉 Dave，Liandra 很快就要抵达 Arenfield。如果 Frisha 还与 Dave 保持关系，Giron 会告诉他，她不能再过来吃晚饭了。</li>
@@ -3350,11 +3388,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>现在你可以观察她去见 Dave，并在她的房间里偷看她。偷看她时务必确保她注意到你。她会逐渐习惯，最终她想要更多（堕落值达到 3+ 时）。</li>
 
 <li>如果操作得当，你可以在 Dave 之前与她做爱。如果你给她戴上了贞操带，就完全不用担心 Dave。只要确保她在自慰时看到过你，然后每当她坐在房间里时直接进去找她。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-helena">
-<h2>Helena 海伦娜</h2>
-<p>女王。Sophie 的母亲。</p>
+<section id="wt-helena" class="walkthrough-card" data-title="Helena 海伦娜">
+<header class="card-title"><h2>Helena 海伦娜</h2></header>
+<div class="card-body"><p>女王。Sophie 的母亲。</p>
 
 <ol>
 <li>她抵达 Arenfield 前需要满足几个条件：</li>
@@ -3417,11 +3455,11 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>把所有东西带给 Yasmine，然后在晚餐时拜访 Helena 以触发场景。</li>
 
 <li>要完整走完整个场景，Helena 需要堕落值达到 10C，否则她会在事情真正升级之前中途喊停。</li>
-</ol>
+</ol></div>
 </section>
-<section id="wt-yasmine">
-<h2>Yasmine 雅斯敏</h2>
-<p>男爵 Giron 的妻子。</p>
+<section id="wt-yasmine" class="walkthrough-card" data-title="Yasmine 雅斯敏">
+<header class="card-title"><h2>Yasmine 雅斯敏</h2></header>
+<div class="card-body"><p>男爵 Giron 的妻子。</p>
 
 <ol>
 <li>读完宅邸里的信之后（参见 <a href="#wt-mansion">市长大宅</a> 第 9 步），趁她坐在客厅时与她交谈。（务必在未伪装的状态下进行。）</li>
@@ -3478,10 +3516,58 @@ code { background: #2a303b; padding: 1px 6px; border-radius: 4px; font-size: 13p
 <li>把她的堕落值提升到 6+，在她对你的好感度低于 8 的情况下观看她自慰，然后午夜时分 Giron 就会操他的妻子。</li>
 
 <li>如果好感度高于 8，白天告诉她你会来看她，但之后不去赴约，那么午夜时她也会改而与 Giron 做爱。</li>
-</ol>
+</ol></div>
 </section>
-    <div id="footer">A Struggle With Sin WalkThrough · 中文翻译版 · 原攻略来自 <a href="https://github.com/AloofTooth/ASWSWalkthrough">AloofTooth/ASWSWalkthrough</a> · 术语：好感度 A / 堕落值 C / 欲望值</div>
-  </main>
+      <div id="footer">A Struggle With Sin WalkThrough · 中文翻译版 · 原攻略来自 <a href="https://github.com/AloofTooth/ASWSWalkthrough">AloofTooth/ASWSWalkthrough</a> · 术语：好感度 A / 堕落值 C / 欲望值</div>
+    </main>
+  </div>
 </div>
+<script>
+(function() {
+  var links = document.querySelectorAll('.section-link');
+  var cards = document.querySelectorAll('.walkthrough-card');
+  var title = document.getElementById('page-title');
+
+  function show(id) {
+    var target = null;
+    for (var i = 0; i < cards.length; i++) {
+      if (cards[i].id === id) { target = cards[i]; }
+    }
+    if (!target) { return; }
+    for (var i = 0; i < cards.length; i++) {
+      cards[i].classList.toggle('active', cards[i] === target);
+      cards[i].setAttribute('aria-hidden', cards[i] === target ? 'false' : 'true');
+    }
+    for (var i = 0; i < links.length; i++) {
+      links[i].classList.toggle('active', links[i].getAttribute('data-target') === id);
+      links[i].setAttribute('aria-current', links[i].getAttribute('data-target') === id ? 'page' : 'false');
+    }
+    title.textContent = target.getAttribute('data-title') || id;
+  }
+
+  for (var i = 0; i < links.length; i++) {
+    links[i].addEventListener('click', function() {
+      show(this.getAttribute('data-target'));
+      document.getElementById('content').scrollTop = 0;
+      document.getElementById('workspace').scrollTop = 0;
+    });
+  }
+
+  function fromHash() {
+    var id = (location.hash || '').replace('#', '');
+    if (id) { show(id); }
+  }
+  window.addEventListener('hashchange', fromHash);
+
+  var first = document.querySelector('.walkthrough-card');
+  if (first) {
+    first.classList.add('active');
+    first.setAttribute('aria-hidden', 'false');
+    var firstLink = document.querySelector('.section-link');
+    if (firstLink) { firstLink.classList.add('active'); firstLink.setAttribute('aria-current', 'page'); }
+  }
+  fromHash();
+})();
+</script>
 </body>
 </html>
