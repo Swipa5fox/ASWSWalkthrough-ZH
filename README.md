@@ -11,4 +11,3 @@
 - 原攻略（英文）：https://github.com/AloofTooth/ASWSWalkthrough
 - 游戏作者 Chyos：https://subscribestar.adult/chyos · https://www.patreon.com/Chyos
 - 仅作于分享，不可用于任何商业形式
-- 
