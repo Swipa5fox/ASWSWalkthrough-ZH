@@ -1,4 +1,4 @@
-# A Struggle With Sin 中文游戏攻略站
+# A Struggle With Sin 中文游戏攻略站（适用于0.62.0版本的游戏）
 
 ## 🌐 在线入口
 
