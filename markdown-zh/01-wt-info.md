@@ -1,0 +1,83 @@
+# 基本信息
+
+这是游戏《A Struggle With Sin》的攻略，作者 Chyos（
+[https://subscribestar.adult/chyos](https://subscribestar.adult/chyos)
+、
+[https://www.patreon.com/Chyos](https://www.patreon.com/Chyos)
+）。
+
+文中将用 A 和 C 分别作为好感度（Affection）和堕落值（Corruption）的简写。
+
+最新版本的新增内容将用绿色高亮标出。
+
+当前攻略支持的游戏版本：0.62.0
+
+本文档使用 Cookie 的唯一目的是记住你设置了哪些章节为"隐藏"。在你使用隐藏功能之前，不会在你的电脑上创建任何 Cookie。更多信息
+[隐藏章节](#hidden-sections)
+。
+
+点击
+[https://github.com/AloofTooth/ASWSWalkthrough/tree/main](https://github.com/AloofTooth/ASWSWalkthrough/tree/main)
+可查看本文档的源代码。
+
+### 通用信息：
+
+我知道使用存档修改（Save-Edits）来改游戏很诱人。
+
+请注意**
+修改游戏变量、开关或物品可能会损坏游戏**
+，因为其中许多是相互关联的。这也会导致跳过场景和对话。
+
+我会尽量把刷材料的内容降到最低，因为我和你们大多数人一样讨厌这种东西。所以每当你需要重复某个动作时，我都会尝试加入新的对话或图片，这样总会有一些新东西。
+
+另外，对于那些不喜欢实际游玩的人，你可以使用作弊书，它让你跳过所有升级过程。
+
+如果你遇到金钱问题，请看
+[技巧与窍门](#wt-tips)
+一节。
+
+游戏选项菜单可调节战斗动画速度。
+
+你可以通过拜访男爵 Baron 来修改你的角色名字。
+
+### 序章之后：
+
+- 你可以在村庄的干草堆睡觉来恢复精力/生命值
+
+- 在村庄内外的任何地方，按下 **T** 键可以消磨时间
+
+- 按 **R** 键可以打开关系总览，包含游戏内各角色的好感度和堕落值
+
+- 物品 **I**、能力 **P**、装备 **E**、任务日志 **J**
+
+- 如果你在游戏地图上按 **R** 键，可以给你的存档文件添加描述
+
+完成当前剧情你至少需要以下天赋：
+
+- 敏捷（Dexterity）：**2**
+
+- 感知（Perception）：**1**
+
+- 狩猎（Hunting）：**5**（来自 [Corven](#wt-corven) 的 +1）= **6**
+
+- 智力（Intelligence）：**2**（来自 [Mira](#wt-mira) 任务的 +2）= **4**
+
+- 巫术（Witchcraft）：**1**（来自任务的 +1）= **2**
+
+- 偷窃（Thievery）：**5**
+
+你应该先做的任务，以解锁所有选项：
+
+- [Mira](#wt-mira) 直到完成"Mira的阅读 2"任务
+
+- [Lucius](#wt-lucius) 的"控制你的欲望"任务（需要先学会阅读）
+
+- [Bianca](#wt-bianca) 教你"撬锁"
+
+- [John](#wt-john) 教你"锻造"
+
+**若想支持游戏开发并获取更新消息，请访问 Chyos 的
+[https://subscribestar.adult/chyos](https://subscribestar.adult/chyos)
+或
+[https://www.patreon.com/Chyos](https://www.patreon.com/Chyos)
+。**
