@@ -1,4 +1,4 @@
-# A Struggle With Sin 攻略（中文版）
+# A Struggle With Sin 中文游戏攻略站
 
 ## 🌐 在线入口
 
