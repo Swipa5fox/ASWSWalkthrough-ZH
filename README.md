@@ -4,7 +4,7 @@
 
 **https://swipa5fox.github.io/AStruggleWithSinWalkthrough_0.62.0-ZH/**
 
-左侧菜单有现版本全部攻略模块（Mira、Tia、Kate、Claire 等全角色），并有截图内嵌帮助解密。
+左侧菜单有现版本全部攻略模块，对角色以及区域任务已进行分区显示，并有截图内嵌帮助大家解密。
 
 ## 说明
 
