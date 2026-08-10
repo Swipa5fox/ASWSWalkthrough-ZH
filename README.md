@@ -2,7 +2,7 @@
 
 ## 🌐 在线入口
 
-**https://swipa5fox.github.io/ASWSWalkthrough-ZH/**
+**https://swipa5fox.github.io/AStruggleWithSinWalkthrough_0.62.0-ZH/**
 
 左侧菜单有现版本全部攻略模块（Mira、Tia、Kate、Claire 等全角色），并有截图内嵌帮助解密。
 
